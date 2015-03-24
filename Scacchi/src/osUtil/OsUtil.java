@@ -33,4 +33,6 @@ public interface OsUtil {
 	void appendFile(String path, String append);
 
 	void loadCsv(ArrayList<String[]> list);
+
+	boolean mkdir(String dir);
 }

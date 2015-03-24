@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import model.Default;
 
 public class IOsUtil implements OsUtil {
+	
 	@Override
 	public void wait( int delay){  
 	try {
@@ -23,20 +24,22 @@ public class IOsUtil implements OsUtil {
 		  Thread.currentThread().interrupt();
 	  }
 	}
+	
 	@Override
 	public void beep(){
 		Toolkit.getDefaultToolkit().beep();
 	}
+	
 	@Override 
 	public long memory(){
 		System.gc();
 		return (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024);
 	}
+	
 	@Override 
 	public String fileSeparator()
 	{
-		String sp=	File.separator;
-		return sp;
+		return File.separator;
 	}
 	
 	@Override 
@@ -47,7 +50,8 @@ public class IOsUtil implements OsUtil {
 		return d.replace("?", fileSeparator());
 	}
 	
-	protected boolean mkdir(String dir){
+	@Override
+	public boolean mkdir(String dir){
 		boolean t=false;
 		File  f = new File(dir);
 		if (!f.exists()){
@@ -56,15 +60,13 @@ public class IOsUtil implements OsUtil {
 		}
 	    return t;	
 	}
-
 	
 	/**
      * @since crea lista demo da file
      * @return
      */
 	  @Override
-	   public 
-	void loadCsv(ArrayList<String[]> list){
+	   public void loadCsv(ArrayList<String[]> list){
 		File f =null;
 		ArrayList<String> listToken=new ArrayList<String>();
 		try {
@@ -113,8 +115,7 @@ public class IOsUtil implements OsUtil {
 	        System.out.println(ex);
 	    }
 	}
-		  /**
-	    * @author Alessandro
+		/**
 	    * @since  ritorna image da file
 	    */
 	   @Override
