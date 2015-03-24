@@ -64,7 +64,7 @@ public class IMoves extends  moves.IChess implements Moves{
 		    model.set(r2.x,r2.y,r2.obj);
 		    model.setColor(color);
 		    model.setSelectState();
-		    String ms="RollBack  Destinazione  pezzo " +Default.xCor[r2.x]+"."+Default.yCor[r2.y]+"  Mossa successiva al " + model.sColorNow() ;
+		    String ms="RollBack  Destinazione  pezzo " +Default.xCor[r2.x]+"."+Default.yCor[r2.y]+"  Mossa successiva al " + model.getSColor() ;
 			view.writeMessage(ms,Color.cyan);
 		   view.syncChessboard();
 		   test=true;
@@ -141,8 +141,7 @@ private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean
     			grantedArea(range[0],  chAt[0],chAt[1]);
     			setAroundTheKing( Around, king);
 	    		if (model.cntlAt(kingAt[0],kingAt[1])==Default.posKill) {
-	    			model.printM("re  "+king+" pezzo "+ range[0] + " SOTTO SCACCO !" );
-	    			StAttach s= new StAttach();
+	     			StAttach s= new StAttach();
     				s.sm		=	true;
     				s.end		= 	true;
     				s.type		= 	false;
@@ -168,7 +167,6 @@ private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean
 			s.auto=auto;
 			ind.add(s);
 		}
-		model.printM("\n\n\n\n* [Exit AT > ]  " + king + "  stall = " + model.getStall()+"\n\n\n");
 		printAroundTheKing(Around );
 		return ind;
 	}
@@ -196,8 +194,7 @@ private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean
 		    				byte [] d=lm.get(index);
 		    				moveChessboard(chAt[0],chAt[1],d[0],d[1]);
 		    				aqlist =overrideAttach(otherKing,auto);
-		    				model.printM(" [DEFENCE] Test on " + range[0] );
-		    				if (aqlist.size() ==  0) {
+		   				if (aqlist.size() ==  0) {
 		    					StAttach s= new StAttach();
 		        				s.type=true;
 		        				s.sm=true;
@@ -216,7 +213,6 @@ private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean
 		    		range[0]++; 
 		     }
 		model.restoreAt(true);
-		model.printM(" [Exit DE >]  " + otherKing );
 		return defence;
 }
 /**

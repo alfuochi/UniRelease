@@ -35,4 +35,7 @@ public interface OsUtil {
 	void loadCsv(ArrayList<String[]> list);
 
 	boolean mkdir(String dir);
+
+	
+	void printOutError(String s, int eCode);
 }

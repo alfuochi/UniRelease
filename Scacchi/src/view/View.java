@@ -38,9 +38,10 @@ public interface View {
 
 	void selCenterBorder(byte x, byte y);
 
-	void ldIcon(byte chess, byte x, byte y);
 
 	void writeAddInfo(String m, Color c);
+
+	void setIconChess(byte chess, byte x, byte y);
 
 
 

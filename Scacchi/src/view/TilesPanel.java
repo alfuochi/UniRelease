@@ -62,10 +62,10 @@ public class TilesPanel extends JPanel implements View {
 	public TilesPanel(Model model,JFrame frame){
 		this.frame=frame;
 		this.model=model;
-		model.testFileImage();
+		osUtil=model.getOsUtil();
 		moves=new moves.IMoves(this);
 		controller= new controller.OnClickIm(this);
-		osUtil=model.getOsUtil();
+		model.testFileImage();
 		createPanel();
 		ldStart();
 	}
@@ -83,8 +83,7 @@ public class TilesPanel extends JPanel implements View {
 		   reloadEat();
 		   reloadCord();
 		   writeAddInfo( "Memoria usata jvm  " + osUtil.memory()+" KB (circa) ",Color.GREEN  );
-		   model.printM( " New game ........ ");
-		   writeMessage("Apre il " + model.sColorNow(),Color.WHITE);
+		   writeMessage("Apre il " + model.getSColor(),Color.WHITE);
 		   reloadDemoList();
 		   frame.setVisible(true);
 		   frame.validate();
@@ -100,14 +99,11 @@ public class TilesPanel extends JPanel implements View {
 	public void moveChD(byte xFrom,byte yFrom,byte xTo,byte yTo,byte eat,byte moved){
 	   String desc=" - not exist - ";
 	   if(moved > -1)  desc=Default.roulesTypes[moved];
-	   if ( eat != -1) { 
-		  ldIconCe (eat);
-	   }
+	   if ( eat != -1) ldIconCe (eat);
 	   setIcon (centerButtons[yTo][xTo],model.getConvProm(model.at(xTo, yTo)[0]));
-	   model.printM( " [moveCh] >>> "+ moved+" eat " +eat);
 	   clrIcon(centerButtons[yFrom][xFrom]);
 	   String ms="  Destinazione  pezzo " +Default.xCor[xTo]+"."+Default.yCor[yTo]+"  " + desc ;
-	   ms+= "\n Mossa successiva al " + model.sColorNow() +"   Regola 50 (w/b) [" +model.getRoules50()[1] + " , " +model.getRoules50()[0]+"]";
+	   ms+= "\n Mossa successiva al " + model.getSColor() +"   Regola 50 (w/b) [" +model.getRoules50()[1] + " , " +model.getRoules50()[0]+"]";
 	   writeMessage(ms,Color.WHITE);
 	   clearAllCenterBorder();
 	} 
@@ -169,35 +165,27 @@ public class TilesPanel extends JPanel implements View {
 		   if (sn==2 && !auto)   System.exit(0);
 	  }   
     /**
-     * @ since stampa selezione pezzi da array di controllo 
+     * @ since stampa selezione pezzi da array di controllo su scacchiera
      */
 	@Override
 	public void markBorderArea(){
-		 try {
-			   for (byte y=0;y<  Default.lY;y++)
+	   for (byte y=0;y<  Default.lY;y++)
 	 				for (byte x=0;x< Default.lX ;x++) {
 	 					if ( model.cntlAt(x,y)== Default.posGranted)
 	 						centerButtons[y][x].setBorder( BorderFactory.createBevelBorder(1,Default.grantedchess[0],Default.grantedchess[1]));
 	 					if ( model.cntlAt(x,y)== Default.posKill)
 	 						centerButtons[y][x].setBorder( BorderFactory.createBevelBorder(1,Default.killchess[0],Default.killchess[1]));
 	 				}
-		 }catch (Exception ex){
-			ex.printStackTrace();
-			System.exit(-10);
-		 }}   
+	}   
   /**
    * @since azzera colori bordi su scacchiera
    */
    @Override
    public void clearAllCenterBorder(){
-		  try {
-			   for (int y=0;y< Default.lY;y++)
-				for (int x=0;x<Default.lX ;x++)
-					setBorder(centerButtons[x][y],Color.WHITE,Color.WHITE);
-		  }catch (Exception ex){
-				 ex.printStackTrace();
-				   System.exit(-1);
-		}}
+	 for (int y=0;y< Default.lY;y++)
+		for (int x=0;x<Default.lX ;x++)
+			setBorder(centerButtons[x][y],Color.WHITE,Color.WHITE);
+	}
    /**
     * @since stampa array scacchiera su scacchiera
     */
@@ -224,7 +212,7 @@ public class TilesPanel extends JPanel implements View {
 		}
    	}
     /**
-     * @since stampa messaggi su casella mosse e cambia colore bordo
+     * @since stampa messaggi su casella mosse e cambia colore sfondo
      */
    @Override 
    public void writeMessage( String m,Color c){
@@ -232,7 +220,7 @@ public class TilesPanel extends JPanel implements View {
        tarea.setBackground(c);
    }
    /**
-    * @since stampa messaggi su casella info addizionali e cambia colore bordo
+    * @since stampa messaggi su casella info addizionali e cambia colore sfondo
     */
    @Override
    public void writeAddInfo( String m,Color c){
@@ -241,33 +229,21 @@ public class TilesPanel extends JPanel implements View {
    }
   
    @Override
-   public void ldIcon(byte chess,byte x,byte y){
-	   try {
+   public void setIconChess(byte chess,byte x,byte y){
 		   setIcon(centerButtons[y][x], chess);
-	   } catch (Exception ex) {
-			   ex.printStackTrace();
-			   System.exit(-9);
-	   }}
+	}
    
    @Override
    public void ldIconCe(byte chess){
-	   try {
 		   if (model.colorCh(chess) )  setIcon(eastButtons[chess][0],chess);
 		   else   setIcon(westButtons[chess-16][0],chess);
-		   } catch (Exception ex) {
-			   ex.printStackTrace();
-			   System.exit(-9);
-	}}
+	}
  
    @Override
    public void clrIconCe(byte chess){
-	   try {
-		    if (model.colorCh(chess) ) 	setIcon(eastButtons[0][chess],chess);
+	       if (model.colorCh(chess) ) 	setIcon(eastButtons[0][chess],chess);
 		   else 			   setIcon(westButtons[0][chess],chess);
-		   } catch (Exception ex) {
-			   ex.printStackTrace();
-			   System.exit(-1);
-   }}
+	}
    
    @Override
 	public Model getModel() {
@@ -304,7 +280,7 @@ public class TilesPanel extends JPanel implements View {
    	   savePlay.setEnabled(false);
    	   ldStart();
    	   controller.runDemo(game.getSelectedIndex());
-   	//   ldStart();
+   	   ldStart();
    	   savePlay.setEnabled(true);
    	   restart.setEnabled(true);
    	   demo.setEnabled(true);
@@ -416,14 +392,10 @@ public class TilesPanel extends JPanel implements View {
    			});
    			
    			savePlay.addActionListener(event -> {
-   				try {
    				String name=JOptionPane.showInputDialog("Nome partita ");
-   				if (name != null)
-   				model.savePlay( name);
-   				reloadDemoList();
-   				}catch (Exception e){
-   					
-   				}
+   				if (! name.isEmpty())
+   					model.savePlay( name);
+   					reloadDemoList();
    				});
    			
       }
@@ -541,13 +513,9 @@ public class TilesPanel extends JPanel implements View {
         	 int bsi=game.getSelectedIndex();
         	 game.removeAllItems();
         	 for (int n=0;n< list.size();n++)
-			     try{
-        		 if (list.get(n)[0].toString().trim().length() > 0)
+				 if (list.get(n)[0].isEmpty())
         		 game.addItem(list.get(n)[0].toString().trim());
-			     }catch(Exception e){
-			    	 
-			     }
-        		 if (bsi == -1) bsi=0;
+			 if (bsi == -1) bsi=0;
         	 game.setSelectedIndex(bsi);
          }
          

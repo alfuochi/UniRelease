@@ -291,7 +291,7 @@ public  class IConfiguration implements Configuration {
 	public boolean isPrintSysOut(){
 	    return  printSysOut;
 	}
-	
+
 	/**
 	 * @since reset single chessboard element configuration 	 
 	 */

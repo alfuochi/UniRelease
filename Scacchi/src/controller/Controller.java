@@ -2,11 +2,12 @@ package controller;
 
 public interface Controller {
 	/**
-	 * @since richiama consecutivamente startprocess passandogli lista mosse da ( classe + file (se esiste) )
+	 * @since esegue comandi da dati file + demo std
 	 */
 	void runDemo(int gameIndex);
+	
 	/**
-	 * @since chiama startprocess passandogli input da scacchiera
+	 * @since esegue comandi da listener scacchiera
 	 */
 	void onClick(byte x, byte y, byte value);
 	

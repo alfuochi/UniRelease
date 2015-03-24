@@ -3,6 +3,7 @@ package model;
 
 
 import java.util.ArrayList;
+
 import osUtil.OsUtil;
 
 
@@ -139,7 +140,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 	*@since  colore in formato stringa
 	*/
 	@Override
-	public String sColorNow() {
+	public String getSColor() {
 		String c="bianco";
 		if (getColor())
 			c="nero";
@@ -439,59 +440,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 			 }
 		}
 
-/**
- *@author Alessandro Fuochi (UNIVR) ID083311
- *@since  color of chess 
- */
-	@Override
-	public void printM( String Title){
-		    if (isPrintSysOut()){
-			System.out.println("---------------------"+ Title+"-------------"+osUtil.memory()+" MB now-------------------------");
-			byte yd=0;
-			while (yd < 8){
-			String s= "["+pCv((byte)0,yd)+ "]  [" + pCv((byte)1,yd)+"]  ["+pCv((byte)2,yd)+ "]  [" +pCv((byte)3,yd)+ "]  ["+pCv((byte)4,yd)+ "]  [" +pCv((byte)5,yd)+"]  ["+pCv((byte)6,yd)+ "] ["+pCv((byte)7,yd)+ "] ";
-				 s+= " * ["+cCv((byte)0,yd)+ "]  [" + cCv((byte)1,yd)+"]  ["+cCv((byte)2,yd)+ "]  [" +cCv((byte)3,yd)+ "]  ["+cCv((byte)4,yd)+ "]  [" +cCv((byte)5,yd)+"]  ["+cCv((byte)6,yd)+ "] ["+cCv((byte)7,yd)+ "] ";
-				 if(	isBackUpAvailable() )	 s+= " * ["+bCv((byte)0,yd)+ "]  [" + bCv((byte)1,yd)+"]  ["+bCv((byte)2,yd)+ "]  [" +bCv((byte)3,yd)+ "]  ["+bCv((byte)4,yd)+ "]  [" +bCv((byte)5,yd)+"]  ["+bCv((byte)6,yd)+ "] ["+bCv((byte)7,yd)+ "] ";
-				 System.out.println( s );
-				 yd++;
-			 }
-			 System.out.println("----------------------"+ Title+"----------"+osUtil.memory()+" MB now---------------------------");
-	}
-		    }
-/**
- *@author Alessandro Fuochi (UNIVR) ID083311
- *@since  value in chessboard
- */
-	private String pCv(byte x,byte y){   
-		String s=at(x,y)[0]+"";
-		return nForm2(s);
-	}
-/**
- *@author Alessandro Fuochi (UNIVR) ID083311
- *@since   value in cntlChessboard
- */
-	private String cCv(byte x,byte y){   
-		String s=cntlAt(x,y)+"";
-		return nForm2(s);
-	}
-	
-/**
-*@author Alessandro Fuochi (UNIVR) ID083311
-*@since  value in buChessboard
-*/
-	private String bCv(byte x,byte y){   
-		String s=atXY(buChessboard,x,y)+"";
-		return nForm2(s);
-	}
-/**
-*@author Alessandro Fuochi (UNIVR) ID083311
-*@since  formatter for display 
-*/
-	private String nForm2(String s ){
-		if (s.length() < 2) s="0"+s;
-		if (s.equals("-1")) s="  ";
-		return s;
-	}
+
 	/**
 	 *@author Alessandro Fuochi (UNIVR) ID083311
 	 *@since  crea unica lista con demo  
@@ -533,6 +482,12 @@ public class TilesModel extends model.IConfiguration implements Model {
 		  if (isPrintSysOut())
 		  System.out.println("\n[Scacchi  run on "+ System.getProperty("os.name")+" Arc. "+ System.getProperty("os.arch")+" Base dir "+System.getProperty("user.dir")+" ]\n Image file from "+osUtil.defaultAppDir(true)+" OK\n");
 	     }
+
+	@Override
+	public String getSColor(Byte ch) {
+		if (colorCh(ch)) return "nero";
+		else return "bianco";
+	}
 
 }
 

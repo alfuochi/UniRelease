@@ -24,17 +24,12 @@ public class OnClickIm implements Controller{
 		this.model= view.getModel();
 		this.osUtil= model.getOsUtil();
 	}
-	/**
-	 * @since esegue comandi da listener scacchiera
-	 */
+	
 	@Override
 	public void onClick(byte x,byte y,byte value) {
 		cntlProcess(x,y,value,(byte) 0);
 	}
 	
-	/**
-	 * @since esegue una sequenza selezionata
-	 */
 	@Override
 	public void runDemo (int gameIndex ) { 
 		   StMove[] sm ;
@@ -52,76 +47,70 @@ public class OnClickIm implements Controller{
 				ic++;
 				  osUtil.wait(Default.runDemoDelay);
 			}
-	}
+		}
 		/**
 		 * @ since determina se la fase attuale e' selezione o movimento
 		 * @ since esegue validazioni fasi 
 		 * @ since esegue richiese azioni e stampe
 		 * @ since cancella record invalidi da storico azioni  
 		 */
-	private void cntlProcess (byte x,byte y ,byte value,byte overValue ) { 
-		StHistory a=new StHistory();
-		a.x=x;
-		a.y=y;
-		a.wait=false;
-		a.close=false;
-		a.end=false;
-		a.eat=false;
-		a.print=false;
-		a.obj= model.at(x, y)[0];
-		a.cobj=model.at(x, y)[1];
-		if (moves.chExist(x, y))
-		a.color=model.colorAt(x, y);
-		a.selectOk=false;
-		a.valueProm=Default.posFree;
-		model.addHistory(a);
-	    
-	    if ( moves.chExist(x, y) )
-		if ((model.sizeHistory() ==1 && model.colorAt(x, y) == model.getColor()) 	|| 
-			( model.sizeHistory() > 2 && model.lastHistory(-2).close && model.lastHistory(-2).selectOk 
-			&& ! model.lastHistory(-2).wait && model.isSelectState()) ) {
-				selectCh(model.lastHistory(-1).x,model.lastHistory(-1).y,model.lastHistory(-1).obj);
+		private void cntlProcess (byte x,byte y ,byte value,byte overValue ) { 
+			StHistory a=new StHistory();
+			a.x=x;
+			a.y=y;
+			a.wait=false;
+			a.close=false;
+			a.end=false;
+			a.eat=false;
+			a.print=false;
+			a.obj= model.at(x, y)[0];
+			a.cobj=model.at(x, y)[1];
+			if (moves.chExist(x, y)) a.color=model.colorAt(x, y);
+			a.selectOk=false;
+			a.valueProm=Default.posFree;
+			model.addHistory(a);
+			if ( moves.chExist(x, y) )
+				if ((model.sizeHistory() ==1 && model.colorAt(x, y) == model.getColor()) 	|| 
+						( model.sizeHistory() > 2 && model.lastHistory(-2).close && model.lastHistory(-2).selectOk 
+								&& ! model.lastHistory(-2).wait && model.isSelectState()) ) {
+									selectCh(model.lastHistory(-1).x,model.lastHistory(-1).y,model.lastHistory(-1).obj);
 				if (model.lastHistory(-1).selectOk ) model.setMoveState();
-		}
+			}
 		
-	    if (model.sizeHistory() >1 && (( model.lastHistory(-2).wait && ! model.lastHistory(-2).close 
-	    	&& model.lastHistory(-2).selectOk &&  model.lastHistory(-2).color == model.getColor() && model.isMoveState()) 
-	    	|| !(model.lastHistory(-2).close ))) {
-			moveCh(model.lastHistory(-2).x,model.lastHistory(-2).y,model.lastHistory(-1).x,model.lastHistory(-1).y,
-					model.lastHistory(-2).obj,model.lastHistory(-1).obj,overValue);
-			if ((model.sizeHistory() > 0  && model.lastHistory(-1).selectOk) ) model.setSelectState();
-		}
+			if (model.sizeHistory() >1 && (( model.lastHistory(-2).wait && ! model.lastHistory(-2).close 
+					&& model.lastHistory(-2).selectOk &&  model.lastHistory(-2).color == model.getColor() && model.isMoveState()) 
+					|| !(model.lastHistory(-2).close ))) {
+						moveCh(model.lastHistory(-2).x,model.lastHistory(-2).y,model.lastHistory(-1).x,model.lastHistory(-1).y,
+								model.lastHistory(-2).obj,model.lastHistory(-1).obj,overValue);
+						if ((model.sizeHistory() > 0  && model.lastHistory(-1).selectOk) ) model.setSelectState();
+			}
 		
-		if ( model.sizeHistory() > 0  &&  ! model.lastHistory(-1).selectOk ) {  
+			if ( model.sizeHistory() > 0  &&  ! model.lastHistory(-1).selectOk ) {  
 				int n= model.sizeHistory();
 				model.removeHistory(model.sizeHistory()-1);
 				model.setSelectState();
 				String c=" invalid "; 
 				if ( moves.chExist(x, y) )
 					c= model.colorAt(x, y)+"";
-				if (model.isPrintSysOut())	System.out.println(" Colore "+ model.sColorNow()+ " color (boolean )  x "
+				if (model.isPrintSysOut())	System.out.println(" Colore "+ model.getSColor()+ " color (boolean )  x "
 					+ Default.xCor[x] + " , y "+ Default.yCor[y] + " value  " + model.at(x, y)[0]+ "  " 
 						+  c + "  record " + n +  " act   " + model.sizeHistory()   );
 					model.setSelectState();
+			}
+			view.writeAddInfo( "Memoria usata jvm  " + osUtil.memory()+" KB (circa) ",Color.GREEN  );
 		}
-		view.writeAddInfo( "Memoria usata jvm  " + osUtil.memory()+" KB (circa) ",Color.GREEN  );
-	}
 	
-    /**
-     * converte sequenza in comandi per esecuzione demo 
-     * @param index
-     * @return
-     */
-	private StMove[] convertDemo(int index ){
+		/**
+		 * converte sequenza in comandi per esecuzione demo 
+		 * @param index
+		 * @return
+		 */
+		private StMove[] convertDemo(int index ){
 			ArrayList<String[]> list= model.loadDemo();
 			String[] mv=list.get(index);
-		if (index >=list.size()){
-			System.out.println(" *** Errore selezione test demo");
-			System.exit(-1);
-		}
-			int io=1;
+			if (index >=list.size()) osUtil.printOutError(" Selezione test demo " ,-1);
 			StMove[] s= new StMove[mv.length];
-			while (io< mv.length){
+			for (int io=1;io< mv.length;io++){
 				s[io]= new StMove();
 				if (mv[io].toUpperCase().getBytes()[0] >= 'A' && mv[io].toUpperCase().getBytes()[0] <= 'H' ){
 				s[io].y= model.stdYC(mv[io].substring(1,2).trim());
@@ -134,10 +123,9 @@ public class OnClickIm implements Controller{
 				 	s[io].obj=(byte)(int) Integer.parseInt((String)mv[io]);
 				    s[io].overWrite=true;
 				}
-				io++;
-				}
-		  return s;
-	}
+			}
+			return s;
+		}
 		/**
 		 * @since verifica se il pezzo selezionato e' selezionabile e se ha mosse valide
 		 */
@@ -154,9 +142,7 @@ public class OnClickIm implements Controller{
 				  a.color=model.colorAt(x, y);
 				  model.setHistory(model.sizeHistory()-1, a);
 				  model.resetCntl();
-				  String colore="Nero";
-				  if (value > 15) colore= "Bianco";
-				  view.writeMessage(" Selezionato " +Default.xCor[x]+"."+Default.yCor[y]+" - "+ colore +"  " + Default.roulesTypes[value],Color.WHITE);
+				  view.writeMessage(" Selezionato " +Default.xCor[x]+"."+Default.yCor[y]+" - "+ model.getSColor(value) +"  " + Default.roulesTypes[value],Color.WHITE);
 				  view.clearAllCenterBorder();
 				  view.selCenterBorder(x, y);
 				  moves.grantedAreaSelect();
@@ -209,7 +195,7 @@ public class OnClickIm implements Controller{
 					  model.setProm03(a.obj, view.reqProm(a.obj));
 				  else
 					  model.setProm(a.obj, overValue);
-				  view.ldIcon(model.at(a.x, a.y)[1],a.x,a.y);
+				  view.setIconChess(model.at(a.x, a.y)[1],a.x,a.y);
 				  StHistory   	b =model.lastHistory(-1);
 				  b.valueProm=model.at(a.x, a.y)[1];
 				  model.setHistory(model.sizeHistory()-1, b);

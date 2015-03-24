@@ -134,5 +134,13 @@ public class IOsUtil implements OsUtil {
 		   }
 		   return img;
 	   }   
-
-}
+	   @Override
+	   public void printOutError(String s,int eCode){
+		   System.out.println("\n ["+Default.title+"]\n\n ERROR  ["+ s +" ] \n\n Stack\n");
+		   StackTraceElement[] se=new Exception().getStackTrace();
+		   for (int n=0;n< se.length;n++)
+		   System.out.println(" Class ["+se[n].getClassName()+"] Method [" +se[n].getMethodName() + "]  Line " + se[n].getLineNumber()+"\n");
+		   System.out.println("\n Exit with code " + eCode + "\n");
+		   System.exit(eCode);
+	   }
+	   }

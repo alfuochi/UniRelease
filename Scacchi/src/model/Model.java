@@ -34,8 +34,6 @@ public interface Model extends Configuration  {
 
 	boolean changeColor();
 
-	String sColorNow();
-
 	byte[] at(byte p);
 
 	byte[] at(byte x, byte y);
@@ -74,15 +72,15 @@ public interface Model extends Configuration  {
 
 	void testFileImage();
 
-	void printM(String Title);
-
 	void resetAll();
 
 	void runDemo();
 
 	OsUtil getOsUtil();
 
-	
+	String getSColor();
+
+	String getSColor(Byte ch);
 
 
 }
