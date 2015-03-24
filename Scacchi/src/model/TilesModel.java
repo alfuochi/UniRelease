@@ -12,7 +12,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 	OsUtil osUtil;
 	public TilesModel(){
 		configuration=new model.IConfiguration();
-		 this.osUtil=new osUtil.IOsUtil();
+		this.osUtil=new osUtil.IOsUtil();
 	}
 		
 	/**

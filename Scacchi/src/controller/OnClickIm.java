@@ -20,7 +20,7 @@ public class OnClickIm implements Controller{
 	private OsUtil osUtil;
 	public OnClickIm(View view){
 		this.view = view;
-		this.moves=new moves.IMoves(view);
+		this.moves=new moves.IMoves(view.getModel());
 		this.model= view.getModel();
 		this.osUtil= model.getOsUtil();
 	}
@@ -215,7 +215,11 @@ public class OnClickIm implements Controller{
 		  if (listEvent.size() > 0)  
 			  view.printScacco(((StAttach) listEvent.get(listEvent.size()-1)).auto,((StAttach) listEvent.get(listEvent.size()-1)).sm,((StAttach) listEvent.get(listEvent.size()-1)).end, ((StAttach) listEvent.get(listEvent.size()-1)).king);
 		  model.restoreAt(false);
-		  if (listEvent.size() > 0 && listEvent.get(listEvent.size()-1).auto) moves.rollbackMove();
+		  if (listEvent.size() > 0 && listEvent.get(listEvent.size()-1).auto) 
+			  {
+				view.writeMessage(moves.rollbackMove(),Color.cyan);
+				view.syncChessboard();
+			  }
 	  }
 	 
 	  /**

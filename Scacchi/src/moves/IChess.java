@@ -2,12 +2,10 @@ package moves;
 
 import view.View;
 import model.Default;
+import model.Model;
 public class IChess implements Chess {
-	private model.Model model;
-	
-	public IChess(View view) {
-		this.model= view.getModel();
-	}
+	protected Model model;
+	protected View view;
 
 @Override
 public void grantedArea(byte  obj,byte x,byte y) {

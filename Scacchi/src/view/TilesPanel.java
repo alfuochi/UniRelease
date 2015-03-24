@@ -63,7 +63,7 @@ public class TilesPanel extends JPanel implements View {
 		this.frame=frame;
 		this.model=model;
 		osUtil=model.getOsUtil();
-		moves=new moves.IMoves(this);
+		moves=new moves.IMoves(model);
 		controller= new controller.OnClickIm(this);
 		model.testFileImage();
 		createPanel();
@@ -513,7 +513,7 @@ public class TilesPanel extends JPanel implements View {
         	 int bsi=game.getSelectedIndex();
         	 game.removeAllItems();
         	 for (int n=0;n< list.size();n++)
-				 if (list.get(n)[0].isEmpty())
+				 if (!list.get(n)[0].isEmpty())
         		 game.addItem(list.get(n)[0].toString().trim());
 			 if (bsi == -1) bsi=0;
         	 game.setSelectedIndex(bsi);

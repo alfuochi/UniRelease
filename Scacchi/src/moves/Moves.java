@@ -12,7 +12,7 @@ public interface Moves extends Chess {
 	 * @author Alessandro Fuochi (UNIVR) ID083311
 	 * @since  move a chess
 	 */
-	boolean rollbackMove();
+	String rollbackMove();
 	/**
 	 * @author Alessandro Fuochi (UNIVR) ID083311
 	 * @since  test for scacco 	 

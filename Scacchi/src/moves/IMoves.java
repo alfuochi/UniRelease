@@ -1,25 +1,16 @@
 package moves;
 
 import java.awt.Color;
-
 import java.util.ArrayList;
-
 
 import model.Model;
 import model.StAttach;
 import model.Default;
 import model.StHistory;
-import view.View;
-
 
 public class IMoves extends  moves.IChess implements Moves{
-	private final View view;
-	private Model model;
-
-	public IMoves(View view){
-		super(view);
-		this.view = view;
-		this.model= view.getModel();
+	public IMoves(Model model){
+		this.model= model;
 	}
 /**
  * @author Alessandro Fuochi (UNIVR) ID083311
@@ -49,8 +40,8 @@ public class IMoves extends  moves.IChess implements Moves{
  * @author Alessandro Fuochi (UNIVR) ID083311
  * @since  return at 'before' of chess move 	 
  */
-@Override public 	boolean rollbackMove(){
-		boolean test= false;
+@Override public String rollbackMove(){
+	String ms="";
 		if(model.sizeHistory() > 1){
 			boolean color;
 			StHistory r2=model.lastHistory(-2);
@@ -64,12 +55,9 @@ public class IMoves extends  moves.IChess implements Moves{
 		    model.set(r2.x,r2.y,r2.obj);
 		    model.setColor(color);
 		    model.setSelectState();
-		    String ms="RollBack  Destinazione  pezzo " +Default.xCor[r2.x]+"."+Default.yCor[r2.y]+"  Mossa successiva al " + model.getSColor() ;
-			view.writeMessage(ms,Color.cyan);
-		   view.syncChessboard();
-		   test=true;
+		    ms="RollBack  Destinazione  pezzo " +Default.xCor[r2.x]+"."+Default.yCor[r2.y]+"  Mossa successiva al " + model.getSColor() ;
 		}
-		return test;
+		return ms;
 	}
 /**
  * @author Alessandro Fuochi (UNIVR) ID083311
