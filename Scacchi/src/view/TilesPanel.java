@@ -76,6 +76,7 @@ public class TilesPanel extends JPanel implements View {
 	@Override
 	public void ldStart( ){
 	   try {
+		   System.gc();
 		   model.resetAll();
 		   moves.loadChessboard();
 		   clearAllCenterBorder();
@@ -99,9 +100,9 @@ public class TilesPanel extends JPanel implements View {
 	public void moveChD(byte xFrom,byte yFrom,byte xTo,byte yTo,byte eat,byte moved){
 	   String desc=" - not exist - ";
 	   if(moved > -1)  desc=Default.roulesTypes[moved];
-	   if ( eat != -1) ldIconCe (eat);
-	   setIcon (centerButtons[yTo][xTo],model.getConvProm(model.at(xTo, yTo)[0]));
-	   clrIcon(centerButtons[yFrom][xFrom]);
+	   if ( eat != -1) setIconCe (eat);
+	   setIconChess(xTo,yTo,model.getConvProm(model.at(xTo, yTo)[0]));
+	   clrIconChess(xFrom,yFrom);
 	   String ms="  Destinazione  pezzo " +Default.xCor[xTo]+"."+Default.yCor[yTo]+"  " + desc ;
 	   ms+= "\n Mossa successiva al " + model.getSColor() +"   Regola 50 (w/b) [" +model.getRoules50()[1] + " , " +model.getRoules50()[0]+"]";
 	   writeMessage(ms,Color.WHITE);
@@ -184,7 +185,7 @@ public class TilesPanel extends JPanel implements View {
    public void clearAllCenterBorder(){
 	 for (int y=0;y< Default.lY;y++)
 		for (int x=0;x<Default.lX ;x++)
-			setBorder(centerButtons[x][y],Color.WHITE,Color.WHITE);
+			setBorder(centerButtons[y][x],Color.WHITE,Color.WHITE);
 	}
    /**
     * @since stampa array scacchiera su scacchiera
@@ -229,20 +230,25 @@ public class TilesPanel extends JPanel implements View {
    }
   
    @Override
-   public void setIconChess(byte chess,byte x,byte y){
+   public void setIconChess(byte x,byte y,byte chess){
 		   setIcon(centerButtons[y][x], chess);
 	}
    
    @Override
-   public void ldIconCe(byte chess){
+   public void clrIconChess(byte x,byte y){
+		   clrIcon(centerButtons[y][x]);
+	}
+   
+   @Override
+   public void setIconCe(byte chess){
 		   if (model.colorCh(chess) )  setIcon(eastButtons[chess][0],chess);
 		   else   setIcon(westButtons[chess-16][0],chess);
 	}
  
    @Override
    public void clrIconCe(byte chess){
-	       if (model.colorCh(chess) ) 	setIcon(eastButtons[0][chess],chess);
-		   else 			   setIcon(westButtons[0][chess],chess);
+	       if (model.colorCh(chess) ) 	clrIcon(eastButtons[0][chess]);
+		   else 			   clrIcon(westButtons[0][chess]);
 	}
    
    @Override
@@ -301,13 +307,15 @@ public class TilesPanel extends JPanel implements View {
    			});
    			
    			pNorth= new JPanel[4]; 
-   		    makePanel(pNorth,0,false,0,0,Default.frame_w, Default.frame_h/24,Color.WHITE);
+   		    byte nLabels=(byte) Default.xCor.length;
+   			makePanel(pNorth,0,false,0,0,Default.frame_w, Default.frame_h/24,Color.WHITE);
    		    makePanel(pNorth,1,false,0,0,Default.frame_w*2/32, Default.frame_h/64,Color.WHITE);
-   		    makePanel(pNorth,2,true,1,8,Default.frame_w*28/32, Default.frame_h/64,Color.WHITE);
+   		    makePanel(pNorth,2,true,1,nLabels,Default.frame_w*28/32, Default.frame_h/64,Color.WHITE);
    		    makePanel(pNorth,3,false,0,0,Default.frame_w*2/32, Default.frame_h/64,Color.WHITE);
    			
-   		    northLabel=new JLabel[10];
-   		    
+   		    northLabel=new JLabel[nLabels];
+   		    for(int n=0;n<nLabels; n++) pNorth[2].add(northLabel[n]=new JLabel());
+   		 
    		    pNorth[0].add(pNorth[1], 	BorderLayout.EAST);
    		    pNorth[0].add(pNorth[2], 	BorderLayout.CENTER);
    		    pNorth[0].add(pNorth[3], 	BorderLayout.WEST);				
@@ -452,34 +460,20 @@ public class TilesPanel extends JPanel implements View {
        }
      
        private void clrIcon(JButton jb){
-      	   try {
-      		   jb.setIcon(null);
-      		   jb.revalidate();
-      		   jb.repaint();
-      	   } catch (Exception ex) {
-      		   ex.printStackTrace();
-      		   System.exit(-1);
-      	   }
+          		   jb.setIcon(null);
        }
         
    
          private void setBorder(JButton jb,Color colorH,Color colorL){
-      	   try{
       		   jb.setBorder( BorderFactory.createBevelBorder(1,colorH,colorL));
-      	   } catch (Exception ex) {
-      		   ex.printStackTrace();
-      		   System.exit(-1);
-      	   }
-         }  
+      	 }  
     
          private void reloadCord(){
-      	   pNorth[2].removeAll();
-      	   for (int n=0;n< 8;n++) {
-      		   JLabel b =new JLabel("  "+Default.xCor[n]);
-      		   northLabel[n]= b;
-      		   pNorth[2].add(northLabel[n]);
+      	   for (int n=0;n< Default.xCor.length;n++){
+      		   northLabel[n].setText("  "+Default.xCor[n]);
+      		   northLabel[n].setBorder(BorderFactory.createBevelBorder(1,Color.GRAY,Color.GRAY));
       	   }
-         }
+      	 }
          
          private void reloadEat(){
            int in=0;

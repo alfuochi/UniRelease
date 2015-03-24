@@ -23,9 +23,7 @@ public interface View {
 
 	void writeMessage(String m, Color c);
 
-	void ldIconCe(byte chess);
-
-	void clrIconCe(byte chess);
+	
 
 	Model getModel();
 
@@ -35,6 +33,12 @@ public interface View {
 	void writeAddInfo(String m, Color c);
 
 	void setIconChess(byte chess, byte x, byte y);
+	
+	void clrIconChess( byte x, byte y);
+	
+	void setIconCe(byte chess);
+
+	void clrIconCe(byte chess);
 
 
 

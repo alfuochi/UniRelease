@@ -37,8 +37,7 @@ public class IOsUtil implements OsUtil {
 	}
 	
 	@Override 
-	public String fileSeparator()
-	{
+	public String fileSeparator(){
 		return File.separator;
 	}
 	
@@ -67,12 +66,12 @@ public class IOsUtil implements OsUtil {
      */
 	  @Override
 	   public void loadCsv(String path,ArrayList<String[]> list){
-		File f =null;
+		File file =null;
 		ArrayList<String> listToken=new ArrayList<String>();
 		try {
 		  
-		   f = new File(path);
-		   if(!f.exists()) {
+		   file = new File(path);
+		   if(!file.exists()) {
 			   printOutError( " file " +path +" non trovato ",1);
 			   } else {
 			   BufferedReader br = new BufferedReader( new FileReader(path));
