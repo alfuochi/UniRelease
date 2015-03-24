@@ -1,6 +1,6 @@
 package moves;
 
-import view.View;
+
 import model.Default;
 import model.Model;
 public class IChess implements Chess {

@@ -249,22 +249,7 @@ public class TilesPanel extends JPanel implements View {
 	public Model getModel() {
 		return model;
 	}
-   
-   @Override
- 	public Controller getController() {
- 		return controller;
- 	}
-   
-   @Override
- 	public Controller getConfiguration() {
- 		return getConfiguration();
- 	}
-   
-   @Override
-	public void setController(Controller controller) {
-		this.controller=controller;
-	}
-   
+      
    @Override
    public void selCenterBorder(byte x,byte y){
   	 setBorder(centerButtons[y][x], Default.busychess[0], Default.busychess[1]);

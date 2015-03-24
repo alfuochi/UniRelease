@@ -1,6 +1,6 @@
 package moves;
 
-import java.awt.Color;
+
 import java.util.ArrayList;
 
 import model.Model;

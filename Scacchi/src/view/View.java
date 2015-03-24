@@ -2,7 +2,6 @@ package view;
 
 import java.awt.Color;
 
-import controller.Controller;
 import model.Model;
 
 
@@ -29,12 +28,6 @@ public interface View {
 	void clrIconCe(byte chess);
 
 	Model getModel();
-
-	Controller getController();
-
-	Controller getConfiguration();
-
-	void setController(Controller controller);
 
 	void selCenterBorder(byte x, byte y);
 
