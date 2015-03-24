@@ -36,7 +36,9 @@ public interface OsUtil {
 
 	boolean mkdir(String dir);
 
-	
+	/**
+   	 *@since stampa messaggio e percorso ed esce con eCode < 0
+   	 */
 	void printOutError(String s, int eCode);
 
 	

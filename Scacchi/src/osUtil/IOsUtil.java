@@ -135,9 +135,7 @@ public class IOsUtil implements OsUtil {
 		   }
 		   return img;
 	   	}   
-	   	/**
-	   	 *@since stampa messaggio e percorso ed esce con eCode < 0
-	   	 */
+	   	
 	   	@Override
 	   	public void printOutError(String s,int eCode){
 		   System.out.println("\n ["+Default.title+"]\n\n ERROR  ["+ s +" ] \n\n Stack\n");
