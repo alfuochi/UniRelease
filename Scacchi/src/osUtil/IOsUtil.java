@@ -66,81 +66,87 @@ public class IOsUtil implements OsUtil {
      * @return
      */
 	  @Override
-	   public void loadCsv(ArrayList<String[]> list){
+	   public void loadCsv(String path,ArrayList<String[]> list){
 		File f =null;
 		ArrayList<String> listToken=new ArrayList<String>();
 		try {
-		   String p=defaultAppDir(true)+"Demo"+Default.csvType;
-		   f = new File(p);
+		  
+		   f = new File(path);
 		   if(!f.exists()) {
-			   System.out.println(p + " non trovato \n");
-		   }
-	       BufferedReader br = new BufferedReader( new FileReader(p));
-	       String strLine = "";
-	       StringTokenizer st = null;
-	       while( (strLine = br.readLine()) != null)
-	       {
-	           st = new StringTokenizer(strLine, Default.csvSep);
-	           listToken.clear();
-	           while(st.hasMoreTokens())
-	           {
-	        	   listToken.add(st.nextToken());
-	           }
-	          list.add( listToken.toArray(new String[listToken.size()]));
-	       }
-		  br.close();
-		} catch (Exception ex) {
-		   ex.printStackTrace();
-		   System.exit(-1);
-	}
-	}
-	/**
+			   printOutError( " file " +path +" non trovato ",1);
+			   } else {
+			   BufferedReader br = new BufferedReader( new FileReader(path));
+			   String strLine = "";
+			   StringTokenizer st = null;
+			   while( (strLine = br.readLine()) != null)
+			   {
+				   st = new StringTokenizer(strLine, Default.csvSep);
+				   listToken.clear();
+				   while(st.hasMoreTokens())
+				   {
+					   listToken.add(st.nextToken());
+				   }
+				   list.add( listToken.toArray(new String[listToken.size()]));
+			   }
+			   br.close();
+		   } 
+		   		}catch (Exception ex) {
+		   			ex.printStackTrace();
+		   			System.exit(-1);
+		   		}
+	  }
+	  /**
        * @since aggiunge demo  
        * @param append record csv formato nome ,selezione ,mossa,...
        */
 	  @Override
-	   public 
-	 void appendFile(String path ,String append)
-	{
-	    try
-	    {
+	   public void appendFile(String path ,String append)	{
+		  try
+		  {
 	        File file = new File(path);
+	        if(!file.exists())
+	        	printOutError( " file " +path +" non trovato ",1);
+	         else{
 	        FileWriter fileWriter = new FileWriter(file,true);
 	        BufferedWriter bufferFileWriter  = new BufferedWriter(fileWriter);
 	        fileWriter.append(append);
 	        bufferFileWriter.close();
-	    
-	    }catch(Exception ex)
-	    {
-	        System.out.println(ex);
-	    }
-	}
+	        }
+		  	}catch(Exception ex){
+			  ex.printStackTrace();
+	   			System.exit(-1);
+	   		}
+	  	}
 		/**
 	    * @since  ritorna image da file
 	    */
-	   @Override
-	   public  Image ldImage(String name){
-		   File f =null;
+	   	@Override
+	   	public  Image ldImage(String path){
+		   File file =null;
 		   Image img=null;
 		   try {
-			   String p=name;
-			   f = new File(p);
-			   if(!f.exists()) 
-				   System.out.println(p + " non trovato \n");
-			   img = ImageIO.read(f);
+			   file = new File(path);
+			   if(!file.exists()) 
+				   printOutError( " file " +path +" non trovato ",1);
+			   else
+				   img = ImageIO.read(file);
 		   } catch (Exception ex) {
 			   ex.printStackTrace();
 			   System.exit(-1);
 		   }
 		   return img;
-	   }   
-	   @Override
-	   public void printOutError(String s,int eCode){
+	   	}   
+	   	/**
+	   	 *@since stampa messaggio e percorso ed esce con eCode < 0
+	   	 */
+	   	@Override
+	   	public void printOutError(String s,int eCode){
 		   System.out.println("\n ["+Default.title+"]\n\n ERROR  ["+ s +" ] \n\n Stack\n");
 		   StackTraceElement[] se=new Exception().getStackTrace();
 		   for (int n=0;n< se.length;n++)
-		   System.out.println(" Class ["+se[n].getClassName()+"] Method [" +se[n].getMethodName() + "]  Line " + se[n].getLineNumber()+"\n");
+			   System.out.println(" Class ["+se[n].getClassName()+"] Method [" +se[n].getMethodName() + "]  Line " + se[n].getLineNumber()+"\n");
 		   System.out.println("\n Exit with code " + eCode + "\n");
+		   if (eCode < 0)
 		   System.exit(eCode);
-	   }
-	   }
+	   	}
+	 }

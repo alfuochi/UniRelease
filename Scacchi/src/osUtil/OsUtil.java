@@ -32,10 +32,12 @@ public interface OsUtil {
 
 	void appendFile(String path, String append);
 
-	void loadCsv(ArrayList<String[]> list);
+	void loadCsv(String path, ArrayList<String[]> list);
 
 	boolean mkdir(String dir);
 
 	
 	void printOutError(String s, int eCode);
+
+	
 }

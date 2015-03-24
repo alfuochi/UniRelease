@@ -58,7 +58,8 @@ public  class Default {
     
     public static String csvType=".cvs";
     public static String csvSep=",";
-   
+    public static String DemoFileName="Demo";
+    
     public static String pdfType=".pdf";
     public static String manualName="Manual";
     

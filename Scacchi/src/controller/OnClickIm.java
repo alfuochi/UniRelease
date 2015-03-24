@@ -37,73 +37,63 @@ public class OnClickIm implements Controller{
 	
 	@Override
 	public void runDemo (int gameIndex ) { 
-		   StMove[] sm ;
-	   	   model.runDemo();
-		   sm=convertDemo(gameIndex);
-			byte overWriteObj=(byte)0;
-		   int ic=1;
-			while(ic< sm.length){
-				if(!sm[ic].overWrite){
-					cntlProcess (sm[ic].x,sm[ic].y , sm[ic].obj ,overWriteObj);
-					overWriteObj=Default.posFree;
-				} else  {
-					overWriteObj	= sm[ic].obj;
-				}	
-				ic++;
-				  osUtil.wait(Default.runDemoDelay);
-			}
+	   StMove[] sm ;
+	   model.runDemo();
+	   sm=convertDemo(gameIndex);
+	   byte overWriteObj=(byte)0;
+	   for( int ic=1;ic< sm.length;ic++){
+			if(!sm[ic].overWrite){
+				cntlProcess (sm[ic].x,sm[ic].y , sm[ic].obj ,overWriteObj);
+				overWriteObj=Default.posFree;
+			} else  {
+				overWriteObj	= sm[ic].obj;
+		}	
+				osUtil.wait(Default.runDemoDelay);
 		}
-		/**
-		 * @ since determina se la fase attuale e' selezione o movimento
-		 * @ since esegue validazioni fasi 
-		 * @ since esegue richiese azioni e stampe
-		 * @ since cancella record invalidi da storico azioni  
-		 */
-		private void cntlProcess (byte x,byte y ,byte value,byte overValue ) { 
-			StHistory a=new StHistory();
-			a.x=x;
-			a.y=y;
-			a.wait=false;
-			a.close=false;
-			a.end=false;
-			a.eat=false;
-			a.print=false;
-			a.obj= model.at(x, y)[0];
-			a.cobj=model.at(x, y)[1];
-			if (moves.chExist(x, y)) a.color=model.colorAt(x, y);
-			a.selectOk=false;
-			a.valueProm=Default.posFree;
-			model.addHistory(a);
-			if ( moves.chExist(x, y) )
-				if ((model.sizeHistory() ==1 && model.colorAt(x, y) == model.getColor()) 	|| 
-						( model.sizeHistory() > 2 && model.lastHistory(-2).close && model.lastHistory(-2).selectOk 
-								&& ! model.lastHistory(-2).wait && model.isSelectState()) ) {
-									selectCh(model.lastHistory(-1).x,model.lastHistory(-1).y,model.lastHistory(-1).obj);
-				if (model.lastHistory(-1).selectOk ) model.setMoveState();
-			}
+	}
+	/**
+	 * @ since determina se la fase attuale e' selezione o movimento
+	 * @ since esegue validazioni fasi 
+	 * @ since esegue richiese azioni e stampe
+	 * @ since cancella record invalidi da storico azioni  
+	 */
+	private void cntlProcess (byte x,byte y ,byte value,byte overValue ) { 
+		StHistory a=new StHistory();
+		a.x=x;
+		a.y=y;
+		a.wait=false;
+		a.close=false;
+		a.end=false;
+		a.eat=false;
+		a.print=false;
+		a.obj= model.at(x, y)[0];
+		a.cobj=model.at(x, y)[1];
+		if (moves.chExist(x, y)) a.color=model.colorAt(x, y);
+		a.selectOk=false;
+		a.valueProm=Default.posFree;
+		model.addHistory(a);
 		
-			if (model.sizeHistory() >1 && (( model.lastHistory(-2).wait && ! model.lastHistory(-2).close 
-					&& model.lastHistory(-2).selectOk &&  model.lastHistory(-2).color == model.getColor() && model.isMoveState()) 
-					|| !(model.lastHistory(-2).close ))) {
-						moveCh(model.lastHistory(-2).x,model.lastHistory(-2).y,model.lastHistory(-1).x,model.lastHistory(-1).y,
-								model.lastHistory(-2).obj,model.lastHistory(-1).obj,overValue);
-						if ((model.sizeHistory() > 0  && model.lastHistory(-1).selectOk) ) model.setSelectState();
-			}
+		if ( moves.chExist(x, y) && ((model.sizeHistory() ==1 && model.colorAt(x, y) == model.getColor()) 	|| 
+			( model.sizeHistory() > 2 && model.lastHistory(-2).close && model.lastHistory(-2).selectOk 
+			&& ! model.lastHistory(-2).wait && model.isSelectState())) ) {
+			selectCh(model.lastHistory(-1).x,model.lastHistory(-1).y,model.lastHistory(-1).obj);
+			if (model.lastHistory(-1).selectOk ) model.setMoveState();
+		}
 		
-			if ( model.sizeHistory() > 0  &&  ! model.lastHistory(-1).selectOk ) {  
-				int n= model.sizeHistory();
+		if (model.sizeHistory() >1 && (( model.lastHistory(-2).wait && ! model.lastHistory(-2).close 
+			&& model.lastHistory(-2).selectOk &&  model.lastHistory(-2).color == model.getColor() && model.isMoveState()) 
+			|| !(model.lastHistory(-2).close ))) {
+					moveCh(model.lastHistory(-2).x,model.lastHistory(-2).y,model.lastHistory(-1).x,model.lastHistory(-1).y,
+					model.lastHistory(-2).obj,model.lastHistory(-1).obj,overValue);
+					if ((model.sizeHistory() > 0  && model.lastHistory(-1).selectOk) ) model.setSelectState();
+		}
+		
+		if ( model.sizeHistory() > 0  &&  ! model.lastHistory(-1).selectOk ) {  
 				model.removeHistory(model.sizeHistory()-1);
 				model.setSelectState();
-				String c=" invalid "; 
-				if ( moves.chExist(x, y) )
-					c= model.colorAt(x, y)+"";
-				if (model.isPrintSysOut())	System.out.println(" Colore "+ model.getSColor()+ " color (boolean )  x "
-					+ Default.xCor[x] + " , y "+ Default.yCor[y] + " value  " + model.at(x, y)[0]+ "  " 
-						+  c + "  record " + n +  " act   " + model.sizeHistory()   );
-					model.setSelectState();
-			}
-			view.writeAddInfo( "Memoria usata jvm  " + osUtil.memory()+" KB (circa) ",Color.GREEN  );
 		}
+			view.writeAddInfo( "Memoria usata jvm  " + osUtil.memory()+" KB (circa) ",Color.GREEN  );
+	}
 	
 		/**
 		 * converte sequenza in comandi per esecuzione demo 
