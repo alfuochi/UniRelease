@@ -304,7 +304,7 @@ public class TilesPanel extends JPanel implements View {
    	   savePlay.setEnabled(false);
    	   ldStart();
    	   controller.runDemo(game.getSelectedIndex());
-   	   ldStart();
+   	//   ldStart();
    	   savePlay.setEnabled(true);
    	   restart.setEnabled(true);
    	   demo.setEnabled(true);

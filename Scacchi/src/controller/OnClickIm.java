@@ -60,7 +60,6 @@ public class OnClickIm implements Controller{
 		 * @ since cancella record invalidi da storico azioni  
 		 */
 	private void cntlProcess (byte x,byte y ,byte value,byte overValue ) { 
-	//	if (model.sizeHistory() == 0) view.ldStart();
 		StHistory a=new StHistory();
 		a.x=x;
 		a.y=y;
@@ -105,7 +104,6 @@ public class OnClickIm implements Controller{
 						+  c + "  record " + n +  " act   " + model.sizeHistory()   );
 					model.setSelectState();
 		}
-		 
 		view.writeAddInfo( "Memoria usata jvm  " + osUtil.memory()+" KB (circa) ",Color.GREEN  );
 	}
 	
