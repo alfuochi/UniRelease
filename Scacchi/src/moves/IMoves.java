@@ -49,8 +49,6 @@ public class IMoves extends  moves.IChess implements Moves{
 			color = model.colorCh(r2.obj);
 		 	r2.obj=r1.obj;
 			r1.obj=r1.eatObj;
-			if (r1.obj > -1)
-			view.clrIconCe(r1.obj);
 			model.set(r1.x,r1.y,r1.obj);
 		    model.set(r2.x,r2.y,r2.obj);
 		    model.setColor(color);

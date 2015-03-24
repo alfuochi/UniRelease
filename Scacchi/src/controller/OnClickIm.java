@@ -26,6 +26,11 @@ public class OnClickIm implements Controller{
 	}
 	
 	@Override
+	public Moves getMoves(){
+		return moves;
+	}
+	
+	@Override
 	public void onClick(byte x,byte y,byte value) {
 		cntlProcess(x,y,value,(byte) 0);
 	}
@@ -230,4 +235,7 @@ public class OnClickIm implements Controller{
   	  	model.resetRoules50(a.color);
     		model.resetRoules50(!a.color);
     		} else model.setRoules50(a.color);	 
-	  }}
+	  }
+    
+
+}

@@ -5,7 +5,6 @@ import model.Default;
 import model.Model;
 public class IChess implements Chess {
 	protected Model model;
-	protected View view;
 
 @Override
 public void grantedArea(byte  obj,byte x,byte y) {
