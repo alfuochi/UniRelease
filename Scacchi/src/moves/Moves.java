@@ -12,13 +12,10 @@ public interface Moves extends Scacco {
 	 * @since  move a chess
 	 */
 	String rollbackMove();
-	/**
-	 * @author Alessandro Fuochi (UNIVR) ID083311
-	 * @since  test for scacco 	 
-	 */
-	ArrayList<StAttach> testScacco();
 	boolean moveChessboard(byte xFrom, byte yFrom, byte xTo, byte yTo);
 
+	
+	
 }
 	
 	

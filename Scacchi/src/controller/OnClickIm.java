@@ -208,7 +208,7 @@ public class OnClickIm implements Controller{
 		  if (model.isPrintSysOut())  
 			  System.out.println("   H["+model.sizeHistory()+"] (Dopo) X "+a.x+ "  Y " +a.y+"  CODE " +a.obj+ " WAIT "+a.wait+" Close "+a.close+"\n");
 		  model.backUpAt();
-		  ArrayList<StAttach> listEvent= moves.testScacco();
+		  ArrayList<StAttach> listEvent= moves.testScaccoAllKing();
 		  if (listEvent.size() > 0)  
 			  view.printScacco(((StAttach) listEvent.get(listEvent.size()-1)).auto,((StAttach) listEvent.get(listEvent.size()-1)).sm,((StAttach) listEvent.get(listEvent.size()-1)).end, ((StAttach) listEvent.get(listEvent.size()-1)).king);
 		  model.restoreAt(false);

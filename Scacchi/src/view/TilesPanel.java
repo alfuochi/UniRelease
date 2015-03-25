@@ -385,10 +385,13 @@ public class TilesPanel extends JPanel implements View {
    			});
    			
    			savePlay.addActionListener(event -> {
+   				try{
    				String name=JOptionPane.showInputDialog("Nome partita ");
-   				if (! name.isEmpty())
+   				if (! name.isEmpty()){
    					model.savePlay( name);
    					reloadDemoList();
+   				}}catch(Exception ex){
+   				}
    				});
    			
       }

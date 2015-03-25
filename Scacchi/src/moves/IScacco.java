@@ -3,49 +3,44 @@ package moves;
 import java.util.ArrayList;
 
 import model.Default;
-import model.Model;
 import model.StAttach;
 import model.StMove;
 
 public  class IScacco extends IChess implements Scacco {
 	/**
-	 * @since  test per scacco 	 
+	 * @since  test per scacco entrambi i re 
 	 */
 	@Override
-	public ArrayList<StAttach> testScacco(){
-		ArrayList<StAttach> alist=new ArrayList<StAttach>();
+	public ArrayList<StAttach> testScaccoAllKing(){
+		ArrayList<StAttach> attach=new ArrayList<StAttach>();
 		byte chess = model.lastHistory(-1).obj;
-			byte kingOnAttach=Default.whiteKing;
-			byte otherKing= Default.blackKing;
-			if (model.colorCh(chess) == model.colorCh(Default.whiteKing)) {
-				 kingOnAttach=Default.blackKing;
-				 otherKing= Default.whiteKing;
-			}
-			alist=	testScacco	(kingOnAttach,otherKing,false);
-			if ( alist.size() == 0)  alist=	testScacco	(otherKing,kingOnAttach,true);
-			return alist;
+		byte kingOnAttach=Default.whiteKing;
+		byte otherKing= Default.blackKing;
+		if (model.colorCh(chess) == model.colorCh(Default.whiteKing)) {
+			 kingOnAttach=Default.blackKing;
+			 otherKing= Default.whiteKing;
+		}
+		attach =	testScaccoKing	(kingOnAttach,otherKing,false);
+		if ( attach.size() == 0)  attach =	testScaccoKing	(otherKing,kingOnAttach,true);
+		return attach ;
 	}
-
-
 	/**
 	 * @since  test per scacco 	
 	 */
-	private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean auto){
-			ArrayList<StAttach> defence= new ArrayList<StAttach>();
-			ArrayList<StAttach> alist = new ArrayList<StAttach>();
-			alist =overrideAttach(kingOnAttach,auto);
-			if(	alist.size() > 0  ) {
-				defence= defenceAttach(otherKing,auto);
-			}
-			for (byte i=0;i< defence.size();i++ )
-				alist.add(((StAttach)defence.get(i)));
-			return alist;
+	private ArrayList<StAttach> testScaccoKing(byte kingOnAttach,byte otherKing,boolean auto){
+		ArrayList<StAttach> defence= new ArrayList<StAttach>();
+		ArrayList<StAttach> attach = new ArrayList<StAttach>();
+		attach =overrideAttach(kingOnAttach,auto);
+		if(	attach.size() > 0  ) defence= defenceAttach(otherKing,auto);
+		for (byte i=0;i< defence.size();i++ )
+			attach.add(((StAttach)defence.get(i)));
+		return attach;
 	}
 
 	/**
 	 * @since  test per scacco,scacco matto,stallo	 
 	 */
-		private ArrayList<StAttach> overrideAttach(byte king,boolean auto){
+	private ArrayList<StAttach> overrideAttach(byte king,boolean auto){
 		ArrayList<StAttach> ind=new ArrayList<StAttach>(); 
 		byte [] chAt;
 		byte [] kingAt=whereIsCh(king);
@@ -53,8 +48,8 @@ public  class IScacco extends IChess implements Scacco {
 		ArrayList<StMove> Around =aroundTheKing( king);
 		while (range[0] <= range[1]){
 	    	if (range[0] != Default.blackKing && range[0] !=  Default.whiteKing){
-	    			chAt=whereIsCh(range[0]);
-	    		if (chAt[0] > -1 && chAt[1] > -1)    	{
+	    		chAt=whereIsCh(range[0]);
+	    		if (chAt[0] > -1 && chAt[1] > -1) 	{
 	    			grantedArea(range[0],  chAt[0],chAt[1]);
 	    			setAroundTheKing( Around, king);
 		    		if (model.cntlAt(kingAt[0],kingAt[1])==Default.posKill) {
@@ -72,18 +67,7 @@ public  class IScacco extends IChess implements Scacco {
 	    	}
 	    	range[0]++; 
 	     	}
-			if( isExitAroundTheKing( Around ) == Default.posKill && numberOfChess(model.colorCh(king))< 2  ){ 
-				model.setStall(true);
-				StAttach s= new StAttach();
-				s.sm= false;
-				s.end= true;
-				s.type= false;
-				s.chAttach= range[0];
-				s.king= model.colorCh(king);
-				s.levelAttach= model.cntlAt(kingAt[0],kingAt[1]);
-				s.auto=auto;
-				ind.add(s);
-			}
+		
 			return ind;
 		}
 		/**
@@ -107,7 +91,7 @@ public  class IScacco extends IChess implements Scacco {
 			    			byte index=0;
 			    			while (index < lm.size()){
 			    				byte [] d=lm.get(index);
-			    				moveChessboard(chAt[0],chAt[1],d[0],d[1]);
+			    				moveChessboardCh(chAt[0],chAt[1],d[0],d[1]);
 			    				aqlist =overrideAttach(otherKing,auto);
 			   				if (aqlist.size() ==  0) {
 			    					StAttach s= new StAttach();
@@ -130,6 +114,37 @@ public  class IScacco extends IChess implements Scacco {
 			model.restoreAt(true);
 			return defence;
 	}
+	
+		
+	private void testStall(byte kingOnAttach,byte otherKing,boolean auto){
+		ArrayList<StAttach> ind=new ArrayList<StAttach>(); 
+		byte king=kingOnAttach;
+		byte [] kingAt=whereIsCh(king);
+		byte [] range=model.rangeAt(king,true);
+		ArrayList<StMove> Around =aroundTheKing( king);
+	
+		
+		if( isExitAroundTheKing( Around ) == Default.posKill && numberOfChess(model.colorCh(king))< 2  ){ 
+			model.setStall(true);
+			StAttach s= new StAttach();
+			s.sm= false;
+			s.end= true;
+			s.type= false;
+			s.chAttach= range[0];
+			s.king= model.colorCh(king);
+			s.levelAttach= model.cntlAt(kingAt[0],kingAt[1]);
+			s.auto=auto;
+			ind.add(s);
+		}
+		
+		
+		
+	}
+		
+		
+		
+		
+		
 	/**
 	 * @since  imposta la lista di attacco al re	 
 	 */
@@ -144,7 +159,6 @@ public  class IScacco extends IChess implements Scacco {
 			}
 		}
 	}
-
 	/**
 	 * @since  lista delle vie di fuga per il re		 
 	 */
@@ -158,10 +172,9 @@ public  class IScacco extends IChess implements Scacco {
 		}
 		return ck;
 	}
-
 	/**
+	 * @since lista posizioni attorno al re
 	 * @param king
-	 * @return lista posizioni attorno al re
 	 */
 	private ArrayList<StMove> aroundTheKing(byte king){
 		ArrayList<StMove>  Around= new ArrayList<StMove>();
@@ -178,12 +191,9 @@ public  class IScacco extends IChess implements Scacco {
 			}
 		return Around;
 	}
-	/**
-	 * @author Alessandro Fuochi (UNIVR) ID083311
-	 * @since  mossa di un pezzo
-	 */
-	@Override
-	public boolean  moveChessboard(byte xFrom,byte yFrom ,byte xTo,byte yTo){
+
+	protected boolean moveChessboardCh(byte xFrom, byte yFrom, byte xTo, byte yTo) {
+		// TODO Auto-generated method stub
 		boolean othColor;
 		boolean canMove=true;
 		boolean myColor=model.colorAt(xFrom,yFrom);
@@ -195,5 +205,6 @@ public  class IScacco extends IChess implements Scacco {
 		model.set(xTo,yTo,model.at(xFrom,yFrom)[0]);
 		model.set(xFrom,yFrom,(byte)-1);
 		return canMove;
-	}	
+	}
+	
 }

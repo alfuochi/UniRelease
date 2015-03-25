@@ -1,13 +1,8 @@
 package moves;
 
-
-import java.util.ArrayList;
-
 import model.Model;
-import model.StAttach;
 import model.Default;
 import model.StHistory;
-import model.StMove;
 
 public class IMoves extends  moves.IScacco implements Moves{
 	public IMoves(Model model){
@@ -24,9 +19,6 @@ public class IMoves extends  moves.IScacco implements Moves{
 			grantedArea(  model.lastHistory(-1).obj,x,y);
 		}
 		}
-
-
-
 
 /**
  * @author Alessandro Fuochi (UNIVR) ID083311
@@ -50,5 +42,12 @@ public class IMoves extends  moves.IScacco implements Moves{
 		return ms;
 	}
 
-
+/**
+ * @author Alessandro Fuochi (UNIVR) ID083311
+ * @since  mossa di un pezzo
+ */
+@Override
+public boolean  moveChessboard(byte xFrom,byte yFrom ,byte xTo,byte yTo){
+	return moveChessboardCh( xFrom, yFrom,  xTo,  yTo);
+}	
 }
