@@ -3,7 +3,7 @@ package moves;
 
 import model.Default;
 import model.Model;
-public class IChess implements Chess {
+public class IChess  implements Chess {
 	protected Model model;
 
 @Override
