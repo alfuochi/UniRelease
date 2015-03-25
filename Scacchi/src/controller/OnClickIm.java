@@ -103,7 +103,7 @@ public class OnClickIm implements Controller{
 		private StMove[] convertDemo(int index ){
 			ArrayList<String[]> list= model.loadDemo();
 			String[] mv=list.get(index);
-			if (index >=list.size()) osUtil.printOutError(" Selezione test demo " ,-1);
+			if (index >=list.size()) osUtil.printOutError(" Selezione test demo " ,-1,false);
 			StMove[] s= new StMove[mv.length];
 			for (int io=1;io< mv.length;io++){
 				s[io]= new StMove();

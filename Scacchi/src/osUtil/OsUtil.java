@@ -55,7 +55,9 @@ public interface OsUtil {
    	 *@param s   string message
    	 *@param eCode error code
    	 */
-	void printOutError(String s, int eCode);
+	void printOutError(String s, int eCode, boolean optional);
+
+	
 
 	
 }

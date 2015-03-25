@@ -509,10 +509,10 @@ public class TilesPanel extends JPanel implements View {
 				if (Desktop.isDesktopSupported()) {
 					Desktop.getDesktop().open(pdfFile);
 				} else {
-					osUtil.printOutError("Awt Desktop is not supported!",1);
+					osUtil.printOutError("Awt Desktop is not supported!",1,true);
 				}
 			} else {
-				osUtil.printOutError("File " + pdfFile + " is not exists!",1);
+				osUtil.printOutError("File " + pdfFile + " is not exists!",1,false);
 			}
 			System.out.println("Done");
 	   } catch (Exception ex) {

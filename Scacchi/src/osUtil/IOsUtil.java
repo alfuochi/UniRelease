@@ -71,7 +71,7 @@ public class IOsUtil implements OsUtil {
 		  
 		   file = new File(path);
 		   if(!file.exists()) {
-			   printOutError( " file " +path +" non trovato ",1);
+			   printOutError( " file " +path +" non trovato ",1,true);
 			   } else {
 			   BufferedReader br = new BufferedReader( new FileReader(path));
 			   String strLine = "";
@@ -103,7 +103,7 @@ public class IOsUtil implements OsUtil {
 		  {
 	        File file = new File(path);
 	        if(!file.exists())
-	        	printOutError( " file " +path +" non trovato ",1);
+	        	printOutError( " file " +path +" non trovato ",1,true);
 	         else{
 	        FileWriter fileWriter = new FileWriter(file,true);
 	        BufferedWriter bufferFileWriter  = new BufferedWriter(fileWriter);
@@ -125,7 +125,7 @@ public class IOsUtil implements OsUtil {
 		   try {
 			   file = new File(path);
 			   if(!file.exists()) 
-				   printOutError( " file " +path +" non trovato ",1);
+				   printOutError( " file " +path +" non trovato ",1,true);
 			   else
 				   img = ImageIO.read(file);
 		   } catch (Exception ex) {
@@ -134,15 +134,17 @@ public class IOsUtil implements OsUtil {
 		   }
 		   return img;
 	   	}   
-	   	
+	   
 	   	@Override
-	   	public void printOutError(String s,int eCode){
-		   System.out.println("\n ["+Default.title+"]\n\n ERROR  ["+ s +" ] \n\n Stack\n");
-		   StackTraceElement[] se=new Exception().getStackTrace();
-		   for (int n=0;n< se.length;n++)
-			   System.out.println(" Class ["+se[n].getClassName()+"] Method [" +se[n].getMethodName() + "]  Line " + se[n].getLineNumber()+"\n");
-		   System.out.println("\n Exit with code " + eCode + "\n");
-		   if (eCode < 0)
-		   System.exit(eCode);
+	   	public void printOutError(String s,int eCode,boolean optional){
+		    if ((optional == Default.printSysOut) || eCode < 0){
+		    	System.out.println("\n ["+Default.title+"]\n\n ERROR  ["+ s +" ] \n\n Stack\n");
+		    	StackTraceElement[] se=new Exception().getStackTrace();
+		    	for (int n=0;n< se.length;n++)
+		    		System.out.println(" Class ["+se[n].getClassName()+"] Method [" +se[n].getMethodName() + "]  Line " + se[n].getLineNumber()+"\n");
+		    	System.out.println("\n Exit with code " + eCode + "\n");
+		    	if (eCode < 0)
+		    		System.exit(eCode);
+		    }
 	   	}
 	 }
