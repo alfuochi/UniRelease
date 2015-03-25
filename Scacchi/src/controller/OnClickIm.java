@@ -190,7 +190,7 @@ public class OnClickIm implements Controller{
 					  model.setProm03(a.obj, view.reqProm(a.obj));
 				  else
 					  model.setProm(a.obj, overValue);
-				  view.setIconChess(model.at(a.x, a.y)[1],a.x,a.y);
+				  view.setIconChess(a.x,a.y,model.at(a.x, a.y)[1]);
 				  StHistory   	b =model.lastHistory(-1);
 				  b.valueProm=model.at(a.x, a.y)[1];
 				  model.setHistory(model.sizeHistory()-1, b);
