@@ -1,6 +1,8 @@
 package moves;
 
 
+import java.util.ArrayList;
+
 import model.Default;
 import model.Model;
 public class IChess  implements Chess {
@@ -93,6 +95,17 @@ public byte numberOfChess(boolean color){
 					if (model.colorAt(x, y)== color) nc++;
 	return nc;
 }
+
+
+protected ArrayList<Byte>  listOfChess(boolean color){
+	ArrayList<Byte> nc= new ArrayList<Byte>();
+		for(byte y=0;y<Default.lY;y++)
+			for(byte x=0;x<Default.lX;x++)
+				if (model.at(x, y)[0]!=Default.posFree)
+					if (model.colorAt(x, y)== color) nc.add(model.at(x,y)[0]);
+	return nc;
+}
+
 /**
  * @since pedone
  */

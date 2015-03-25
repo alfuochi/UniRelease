@@ -71,7 +71,10 @@ public  class Default {
     public static final Color[] killchess ={Color.RED,Color.RED}; 
     public static final boolean printSysOut=false;  
     
-    public static byte rules50= 50; 
+    public static final byte rules50Move= 50; 
+    public static final byte rulesFewChess=3;
+    public static final byte rulesRepeatMove=3;
+    public static final byte rulesStall=1;    
     
     public static final int runDisplayDelay = 200;
     public static final int runDemoDelay = 800;

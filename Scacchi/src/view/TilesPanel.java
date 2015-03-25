@@ -133,13 +133,8 @@ public class TilesPanel extends JPanel implements View {
 			   tarea.setBackground(Color.yellow);
 			   JOptionPane.showMessageDialog(null, " Scacco al re " + re, "Scacchi", JOptionPane.INFORMATION_MESSAGE);
 		   }
-		   if ( !sm && end)  {
-			   sn=1; 
-			   tarea.setText(" STALLO ");
-			   tarea.setBackground(Color.ORANGE);
-			   sn = JOptionPane.showConfirmDialog(null, "STALLO !!\n\n Nuova partita (SI) o esci (NO) ?", "Scacchi", JOptionPane.YES_NO_OPTION);
-		  }
-		   if ( sm && end)  {
+		   
+		if ( sm && end)  {
 			   sn=1;
 			   tarea.setText(" SCACCO MATTO ");
 			   tarea.setBackground(Color.red);
@@ -151,7 +146,14 @@ public class TilesPanel extends JPanel implements View {
 			        sn = (Integer) JOptionPane.showOptionDialog(null,  " Scacco matto ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
 			  }
 			  }
-		   if (model.isPattaRoules50()) {
+		 if ( model.isStall())  {
+			   sn=1; 
+			   tarea.setText(" STALLO ");
+			   tarea.setBackground(Color.ORANGE);
+			   sn = JOptionPane.showConfirmDialog(null, "STALLO !!\n\n Nuova partita (SI) o esci (NO) ?", "Scacchi", JOptionPane.YES_NO_OPTION);
+		 }
+		
+		 if (model.isPattaRoules50()) {
 				  Icon errorIcon = UIManager.getIcon("OptionPane.warningIcon");  
 			       String[] possibilities= {"Nuova Partita","Nuova Partita e Salva partita","Esci"};
 			        sn = (Integer) JOptionPane.showOptionDialog(null,  " Patta (Regola 50) ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);

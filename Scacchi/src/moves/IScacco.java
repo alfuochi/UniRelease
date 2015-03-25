@@ -38,7 +38,7 @@ public  class IScacco extends IChess implements Scacco {
 	}
 
 	/**
-	 * @since  test per scacco,scacco matto,stallo	 
+	 * @since  test per scacco,scacco matto
 	 */
 	private ArrayList<StAttach> overrideAttach(byte king,boolean auto){
 		ArrayList<StAttach> ind=new ArrayList<StAttach>(); 
@@ -74,10 +74,11 @@ public  class IScacco extends IChess implements Scacco {
 		 * @since  cerca una o piu' mosse di uscita per il re 
 		 */
 		private ArrayList<StAttach> defenceAttach(byte king,boolean auto){
+			//model.resetStall();
 			model.restoreAt(true);
 			byte otherKing=Default.blackKing;
 			if (king ==Default.blackKing ) otherKing=Default.whiteKing;
-			ArrayList<StAttach> aqlist=new ArrayList<StAttach>();
+			ArrayList<StAttach> attach=new ArrayList<StAttach>();
 			ArrayList<StAttach> defence=new ArrayList<StAttach>();
 			byte [] kingAt=whereIsCh(king);
 			byte [] chAt;
@@ -88,12 +89,13 @@ public  class IScacco extends IChess implements Scacco {
 			    			model.resetCntl();
 			    			grantedArea(range[0], chAt[0],chAt[1]);
 			    			ArrayList<byte[]> lm=model.listMove();
+			    		//	model.addStall(lm.size());
 			    			byte index=0;
 			    			while (index < lm.size()){
 			    				byte [] d=lm.get(index);
 			    				moveChessboardCh(chAt[0],chAt[1],d[0],d[1]);
-			    				aqlist =overrideAttach(otherKing,auto);
-			   				if (aqlist.size() ==  0) {
+			    				attach =overrideAttach(otherKing,auto);
+			   				if (attach.size() ==  0) {
 			    					StAttach s= new StAttach();
 			        				s.type=true;
 			        				s.sm=true;
@@ -105,7 +107,7 @@ public  class IScacco extends IChess implements Scacco {
 			        	    		defence.add(s);
 			    				}
 			    				model.restoreAt(true);
-			    				aqlist.clear();
+			    				attach.clear();
 			    				index++;
 			    			}
 			    		}
@@ -125,7 +127,7 @@ public  class IScacco extends IChess implements Scacco {
 	
 		
 		if( isExitAroundTheKing( Around ) == Default.posKill && numberOfChess(model.colorCh(king))< 2  ){ 
-			model.setStall(true);
+	//		model.setStall(true);
 			StAttach s= new StAttach();
 			s.sm= false;
 			s.end= true;

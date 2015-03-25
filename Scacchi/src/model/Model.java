@@ -41,12 +41,19 @@ public interface Model extends Configuration  {
 
 	boolean colorAt(byte x, byte y);
 
+	/**
+	*@since range dei pezzi del re   
+	*@param kingCh true se sono i pezzi del re // false se i pezzi dell'altro re 
+	*/
 	byte[] rangeAt(byte king, boolean kingCh);
 
 	
 
 	byte[] xyFromPos(byte pos);
-
+	/**
+	 *@since 	lista delle mosse autorizzate da board  controllo  
+	 *@return 	array of byte[2] 0 is x 1 is y 
+	 */
 	ArrayList<byte[]> listMove();
 
 	byte posFromXY(byte x, byte y);

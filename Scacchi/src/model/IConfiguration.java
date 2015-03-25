@@ -8,6 +8,8 @@ import java.util.ArrayList;
  *@since  configuration 
  */
 public  class IConfiguration implements Configuration {
+	private static ArrayList<byte[]> mapsL;
+	private static boolean mapsComplete;
 	private static ArrayList<byte[]> chessboardL;
 	protected final static byte chessboard=0;
 	protected final static byte cntlChessboard=1;
@@ -20,11 +22,16 @@ public  class IConfiguration implements Configuration {
 	private ArrayList<StHistory> History; 
 	private boolean select;
 	private boolean move;
-	private boolean stall;
-	private boolean printSysOut;
-	private boolean demo;
-	private byte pattaW;
-	private byte pattaB;
+	
+	private static int  	stallCounter;
+		
+	private static boolean repeatMove;
+	private static boolean fewChess;
+	
+	private static boolean printSysOut;
+	private static boolean demo;
+	private static byte pattaW;
+	private static byte pattaB;
 	
 	/**
 	 * @since  configuration, caricamento classe	 
@@ -62,7 +69,7 @@ public  class IConfiguration implements Configuration {
 	public void resetState()	{
 	   setSelect(false);
 	   setMove(false);
-	   setStall(false);
+	   resetStall();
 	   setDemo(false);
 	}
 	
@@ -98,8 +105,7 @@ public  class IConfiguration implements Configuration {
 	 * @since backup array scacchiera
 	 */
 	@Override
-	public
-	 void backUpAt(){
+	public void backUpAt(){
 		if (chessboardL.size()< buChessboard+1)
 			chessboardL.add(new byte[Default.lChessboard]);
 		chessboardL.set(buChessboard, chessboardL.get(chessboard).clone());
@@ -113,8 +119,7 @@ public  class IConfiguration implements Configuration {
 	 * @since ripristina valori scacchiera e rimuove array backup se richiesto 
 	 */
 	@Override
-	public
-	void restoreAt( boolean noRemove){
+	public 	void restoreAt( boolean noRemove){
 		chessboardL.set(chessboard, chessboardL.get(buChessboard).clone());
 		promL.set(prom, promL.get(buProm).clone());
 		if (chessboardL.size()== (buChessboard+1) && !noRemove)
@@ -142,9 +147,9 @@ public  class IConfiguration implements Configuration {
 	@Override
 	public void resetRoules50(boolean color){
 		if (color)
-		pattaB=Default.rules50;
+		pattaB=Default.rules50Move;
 		else
-		pattaW=Default.rules50;
+		pattaW=Default.rules50Move;
 	}
 	
 	/**
@@ -193,15 +198,23 @@ public  class IConfiguration implements Configuration {
 	}
 	
 	@Override
-	public 
-	void setStall(boolean value){
-		stall=value;
+	public 	boolean getRepeatMove(){
+		return repeatMove;
 	}
 	
 	@Override
-	public 
-	boolean getStall(){
-		return stall;
+	public 	void addStall(int value){
+		stallCounter+=value;
+	}
+	
+	@Override
+	public 	void resetStall(){
+		stallCounter=0;
+	}
+	
+	@Override
+	public 	boolean isStall(){
+		return stallCounter == 0;
 	}
 	
 	@Override

@@ -177,11 +177,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 		}
 		return !( at(x,y)[0] >  Default.endBlack);
 	}
-	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
-	*@since  range of king chess  
-	*@param kingCh true if chess of king // false chess of other king 
-	*/
+	
 	@Override
 	public byte[] rangeAt(byte king, boolean kingCh) {
 		boolean sel=false;
@@ -251,16 +247,15 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return	(byte) ((y*Default.lY) +x);
 	}
 	/**
-	 *@author Alessandro Fuochi (UNIVR) ID083311
-	 *@since list possible move from cntl of chess  
-	 *@return array of byte[2] 0 is x 1 is y 
+	 *@since 	lista delle mosse autorizzate da board  controllo  
+	 *@return 	array of byte[2] 0 is x 1 is y 
 	 */
 	@Override
 	public ArrayList<byte[] > listMove(){
 		ArrayList<byte []> ind=new ArrayList<byte[]>(); 
 		for (byte y=0;y< Default.lY;y++)
 			for (byte x=0;x< Default.lX;x++)
-				if(	cntlAt(x,y) < -2) {
+				if(	cntlAt(x,y) < Default.posGranted) {
 					byte [] cord=new byte [2];	
 					cord[0]=x;
 					cord[1]=y;

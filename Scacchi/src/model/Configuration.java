@@ -13,10 +13,8 @@ public abstract interface Configuration {
 
 	void restoreColor();
 
-	/**
-	 *@since imposta condizione di stallo  
-	 */
-	boolean getStall();
+	
+
 
 	StHistory getHistory(int index);
 
@@ -101,9 +99,15 @@ public abstract interface Configuration {
 	
 	void setColor(boolean value);
 	
-	void setStall(boolean value);
+	void resetStall();
 
 	void resetState();
+
+	boolean getRepeatMove();
+
+	void addStall(int value);
+
+	boolean isStall();
 
 	
 }
