@@ -134,10 +134,13 @@ public class IOsUtil implements OsUtil {
 		   }
 		   return img;
 	   	}   
-	   
+	   /**
+	    * @since stampa (se previsto da default o in caso di uscita dal programma o sempre ) in sysout 
+	    * @since messaggio con percorso con classi metodi e linee codice  
+	    */
 	   	@Override
-	   	public void printOutError(String s,int eCode,boolean optional){
-		    if ((optional == Default.printSysOut) || eCode < 0){
+	   	public void printOutError(String s,int eCode,boolean optionalPrint){
+		    if ((optionalPrint == Default.printSysOut) || eCode < 0){
 		    	System.out.println("\n ["+Default.title+"]\n\n ERROR  ["+ s +" ] \n\n Stack\n");
 		    	StackTraceElement[] se=new Exception().getStackTrace();
 		    	for (int n=0;n< se.length;n++)
