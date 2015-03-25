@@ -127,7 +127,7 @@ public class IOsUtil implements OsUtil {
     	   int[] e=javaVersion();
     	   if(  e[0] < Default.JVM_Minimum_Value[0] ||( e[0] == Default.JVM_Minimum_Value[0] && e[1] < Default.JVM_Minimum_Value[1] ))
     		   printOutError("This is java version " + e[0] +"."+ e[1]
-    				   +" but is required java version " + Default.JVM_Minimum_Value[0] +"."+ Default.JVM_Minimum_Value[1],-1,true) ;   ; 
+    				   +" but is required java version " + Default.JVM_Minimum_Value[0] +"."+ Default.JVM_Minimum_Value[1],-1,true) ;
        }
       
    
@@ -135,7 +135,7 @@ public class IOsUtil implements OsUtil {
        public int[] javaVersion(){
 	   		int[] e=null;
 	   		try{
-	   		String[] jvmv =splitToken(System.getProperty("java.version").replace("_", "."),"."); 
+	   		String[] jvmv =splitToken(System.getProperty("java.version").substring(0, System.getProperty("java.version").indexOf("_")),"."); 
             e= new int[jvmv.length];
             for(int n=0;n< e.length;n++)
         	  e[n]= Integer.parseInt(jvmv[n]);
@@ -148,13 +148,12 @@ public class IOsUtil implements OsUtil {
 	   	private String[] splitToken(String s,String separator){
 	   		String[] sa=null;
 	   		try {
-	   			ArrayList<String> listToken = new ArrayList<String>();
-	 		  StringTokenizer st = new StringTokenizer(s,separator);
-	 		  while(st.hasMoreTokens())  listToken.add(st.nextToken());
-	 		  Object[] oa=listToken.toArray(); 
-	 		  sa=new String[oa.length];
-	 		  for (int n =0;n< oa.length;n++)
-	 			  sa[n]=(String) oa[n];
+	   				ArrayList<String> listToken = new ArrayList<String>();
+	   				StringTokenizer st = new StringTokenizer(s,separator);
+	   				while(st.hasMoreTokens())  listToken.add(st.nextToken());
+	   				sa=new String[listToken.size()];
+	   				for (int n =0;n< sa.length;n++)
+	   					sa[n]=(String) listToken.get(n);
 	   		}catch (Exception ex){
 	  			printOutError("Problem in string conversion " ,1,true,ex);
 	  		}
