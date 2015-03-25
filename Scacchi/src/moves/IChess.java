@@ -85,7 +85,9 @@ public void loadChessboard(){
 	   }
   }
   }
-
+/**
+ * @since numero pezzi presenti sulla scacchiera per colore 
+ */
 @Override
 public byte numberOfChess(boolean color){
 	byte nc=0;

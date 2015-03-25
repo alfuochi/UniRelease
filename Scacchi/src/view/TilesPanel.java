@@ -152,7 +152,13 @@ public class TilesPanel extends JPanel implements View {
 			   tarea.setBackground(Color.ORANGE);
 			   sn = JOptionPane.showConfirmDialog(null, "STALLO !!\n\n Nuova partita (SI) o esci (NO) ?", "Scacchi", JOptionPane.YES_NO_OPTION);
 		 }
-		
+		 
+		 if ( model.isFewChess())  {
+			   sn=1; 
+			   tarea.setText(" PATTA TEORICA ");
+			   tarea.setBackground(Color.ORANGE);
+			   sn = JOptionPane.showConfirmDialog(null, "PATTA TEORICA !!\n\n Nuova partita (SI) o esci (NO) ?", "Scacchi", JOptionPane.YES_NO_OPTION);
+		 }
 		 if (model.isPattaRoules50()) {
 				  Icon errorIcon = UIManager.getIcon("OptionPane.warningIcon");  
 			       String[] possibilities= {"Nuova Partita","Nuova Partita e Salva partita","Esci"};
@@ -161,8 +167,13 @@ public class TilesPanel extends JPanel implements View {
 		   } 
 		   if (sn == 0)  ldStart();
 		   if (sn == 1){
+			   try {
 			   String name=JOptionPane.showInputDialog("Nome partita ");
+			   if (! name.isEmpty())
 			   model.savePlay( name);
+			   }catch (Exception ex){
+				   
+			   }
 			   ldStart();
 		   }
 		   if (sn==2 && !auto)   System.exit(0);

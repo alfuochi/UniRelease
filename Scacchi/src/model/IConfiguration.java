@@ -24,9 +24,10 @@ public  class IConfiguration implements Configuration {
 	private boolean move;
 	
 	private static int  	stallCounter;
-		
+	private static int fewChessW;
+	private static int fewChessB;
+	
 	private static boolean repeatMove;
-	private static boolean fewChess;
 	
 	private static boolean printSysOut;
 	private static boolean demo;
@@ -72,6 +73,8 @@ public  class IConfiguration implements Configuration {
 	   resetStall();
 	   setDemo(false);
 	}
+	
+
 	
 	/**
 	*@since reset controllo scacchiera 
@@ -170,8 +173,19 @@ public  class IConfiguration implements Configuration {
 	public boolean isPattaRoules50(){
 		return pattaW == 0 && pattaB == 0;
 	}
+
+	@Override
+	public void setFewChess(int value,boolean color){
+		if (color)
+		fewChessB=value;
+		else
+		fewChessW=value;
+	}
 	
-	
+	@Override
+	public boolean isFewChess(){
+		return fewChessB < Default.rulesFewChess && fewChessW < Default.rulesFewChess;
+	}
 	@Override
 	public void setSelect(boolean value){
 		select=value;

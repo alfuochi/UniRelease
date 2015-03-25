@@ -109,5 +109,11 @@ public abstract interface Configuration {
 
 	boolean isStall();
 
+
+
+	boolean isFewChess();
+
+	void setFewChess(int value, boolean color);
+
 	
 }

@@ -178,6 +178,8 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return !( at(x,y)[0] >  Default.endBlack);
 	}
 	
+
+	
 	@Override
 	public byte[] rangeAt(byte king, boolean kingCh) {
 		boolean sel=false;
@@ -255,7 +257,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 		ArrayList<byte []> ind=new ArrayList<byte[]>(); 
 		for (byte y=0;y< Default.lY;y++)
 			for (byte x=0;x< Default.lX;x++)
-				if(	cntlAt(x,y) < Default.posGranted) {
+				if(	cntlAt(x,y) < Default.posFree) {
 					byte [] cord=new byte [2];	
 					cord[0]=x;
 					cord[1]=y;
@@ -446,7 +448,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 	@Override
 	public void savePlay(String name){
 	    String s=name+Default.csvSep;
-	    for(byte n=0;n< sizeHistory();n++){
+	    for(int n=0;n< sizeHistory();n++){
 			StHistory a =getHistory(n);
 		    if(a.promReq)
 		    s+=a.valueProm+Default.csvSep;

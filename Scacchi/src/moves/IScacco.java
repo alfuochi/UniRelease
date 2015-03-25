@@ -22,6 +22,7 @@ public  class IScacco extends IChess implements Scacco {
 		}
 		attach =	testScaccoKing	(kingOnAttach,otherKing,false);
 		if ( attach.size() == 0)  attach =	testScaccoKing	(otherKing,kingOnAttach,true);
+		testStall();
 		return attach ;
 	}
 	/**
@@ -74,7 +75,6 @@ public  class IScacco extends IChess implements Scacco {
 		 * @since  cerca una o piu' mosse di uscita per il re 
 		 */
 		private ArrayList<StAttach> defenceAttach(byte king,boolean auto){
-			//model.resetStall();
 			model.restoreAt(true);
 			byte otherKing=Default.blackKing;
 			if (king ==Default.blackKing ) otherKing=Default.whiteKing;
@@ -89,7 +89,6 @@ public  class IScacco extends IChess implements Scacco {
 			    			model.resetCntl();
 			    			grantedArea(range[0], chAt[0],chAt[1]);
 			    			ArrayList<byte[]> lm=model.listMove();
-			    		//	model.addStall(lm.size());
 			    			byte index=0;
 			    			while (index < lm.size()){
 			    				byte [] d=lm.get(index);
@@ -118,34 +117,32 @@ public  class IScacco extends IChess implements Scacco {
 	}
 	
 		
-	private void testStall(byte kingOnAttach,byte otherKing,boolean auto){
-		ArrayList<StAttach> ind=new ArrayList<StAttach>(); 
-		byte king=kingOnAttach;
-		byte [] kingAt=whereIsCh(king);
-		byte [] range=model.rangeAt(king,true);
-		ArrayList<StMove> Around =aroundTheKing( king);
-	
-		
-		if( isExitAroundTheKing( Around ) == Default.posKill && numberOfChess(model.colorCh(king))< 2  ){ 
-	//		model.setStall(true);
-			StAttach s= new StAttach();
-			s.sm= false;
-			s.end= true;
-			s.type= false;
-			s.chAttach= range[0];
-			s.king= model.colorCh(king);
-			s.levelAttach= model.cntlAt(kingAt[0],kingAt[1]);
-			s.auto=auto;
-			ind.add(s);
-		}
-		
-		
-		
+	private void testStall(){
+		model.restoreAt(true);
+		model.resetStall();
+		 model.setFewChess(numberOfChess(true),true);
+		 model.setFewChess(numberOfChess(false),false);
+		testSingleStall(Default.blackKing);
+		if (!model.isStall()) testSingleStall(Default.whiteKing);
 	}
-		
-		
-		
-		
+	
+	private void testSingleStall(byte king){
+		byte[] chAt;
+		byte [] range=model.rangeAt(king, true);
+		while (range[0]<= range[1]){
+		    if (range[0]!=king){	 	
+			chAt=whereIsCh(range[0]);
+		    		if (chAt[0] > -1 && chAt[1] > -1)    	{
+		    			model.resetCntl();
+		    			grantedArea(range[0], chAt[0],chAt[1]);
+		    			ArrayList<byte[]> lm=model.listMove();
+		    			model.addStall(lm.size());
+		    			model.restoreAt(true);
+		    		}
+		    	}
+		   range[0]++;
+		}
+	}
 		
 	/**
 	 * @since  imposta la lista di attacco al re	 
