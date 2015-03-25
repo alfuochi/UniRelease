@@ -451,7 +451,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 		ArrayList<String[]> list=new  ArrayList<String[]> ();
 		list.add(Default.DemoS0);
 	    list.add(Default.DemoS1);
-	    osUtil.loadCsv( osUtil.defaultAppDir(true)+Default.DemoFileName+Default.csvType, list);
+	    osUtil.loadCsv( osUtil.defaultAppDir(true)+Default.DemoFileName+Default.csvType, list,osUtil.fileSeparator());
 	    return list;
 	}
  

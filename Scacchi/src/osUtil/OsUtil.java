@@ -27,12 +27,26 @@ public interface OsUtil {
      * @return string path 
      */
 	String defaultAppDir(boolean relative);
-
-	Image ldImage(String name);
-
+    /**
+     * @since creazione oggetto image da file
+     * @param path String path file
+     * @return Image (oggetto  image)
+     */
+	Image ldImage(String path);
+    /**
+     * @since aggiunta record a file
+     * @param path String path file
+     * @param append record in accodamento
+     */
 	void appendFile(String path, String append);
 
-	void loadCsv(String path, ArrayList<String[]> list);
+	/**
+	 * @since carica in array list liste di string equivalenti a campi csv 
+	 * @param path  path file csv
+	 * @param list array list a cui verranno aggiunti record csv
+	 * @param separator separatore csv
+	 */
+	void loadCsv(String path, ArrayList<String[]> list,String separator);
 
 	boolean mkdir(String dir);
 

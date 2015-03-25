@@ -64,7 +64,7 @@ public class IOsUtil implements OsUtil {
      * @since crea lista demo da file
       */
 	  @Override
-	   public void loadCsv(String path,ArrayList<String[]> list){
+	   public void loadCsv(String path,ArrayList<String[]> list,String separator){
 		File file =null;
 		ArrayList<String> listToken=new ArrayList<String>();
 		try {
@@ -78,7 +78,7 @@ public class IOsUtil implements OsUtil {
 			   StringTokenizer st = null;
 			   while( (strLine = br.readLine()) != null)
 			   {
-				   st = new StringTokenizer(strLine, Default.csvSep);
+				   st = new StringTokenizer(strLine,separator);
 				   listToken.clear();
 				   while(st.hasMoreTokens())
 				   {
