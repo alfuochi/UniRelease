@@ -23,14 +23,11 @@ public  class Default {
 	public static  final byte promBlack =0;
 	public static  final byte promWhite =24;
 	public static  final byte promRange=4;
-	
+	public static final byte[] isPawn         ={8,23};
+	 
 	public static  final String[] xCor 			={"A","B","C","D","E","F","G","H"};
     public static  final String[] yCor 			={"8","7","6","5","4","3","2","1"};
-    
-    
-    
-    public static final byte[] isPawn         ={8,23};
-    
+     
     public static  final byte blackKing=4;
     public static  final byte whiteKing=28;
     
@@ -64,14 +61,11 @@ public  class Default {
     public static String DemoFileName="Demo";
     
     public static String pdfType=".pdf";
-    public static String manualName="Manual";
+    public static String manualName="ReadMe";
     
     public static final int frame_w =1200; 
     public static final int frame_h =700; 
-    
-    public static final int runDisplayDelay = 200;
-    public static final int runDemoDelay = 800;
-    
+      
     public static final Color[] busychess ={Color.YELLOW,Color.YELLOW}; 
     public static final Color[] grantedchess ={Color.GREEN,Color.GREEN}; 
     public static final Color[] killchess ={Color.RED,Color.RED}; 
@@ -79,6 +73,8 @@ public  class Default {
     
     public static byte rules50= 50; 
     
+    public static final int runDisplayDelay = 200;
+    public static final int runDemoDelay = 800;
     public static final String[] DemoS0={"Barbiere","E2","E3","E7","E6","E3","E4","E6","E5","D1","H5","B8","C6","F1","C4","G8","F6","H5","F7"};
 	public static final String[] DemoS1={"Scacco Semplice","E2","E3","E7","E6","E3","E4","E6","E5","D1","H5","B8","C6","F1","B5","G8","F6","H5","F7"};
 	
