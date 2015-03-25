@@ -103,5 +103,7 @@ public abstract interface Configuration {
 	
 	void setStall(boolean value);
 
+	void resetState();
+
 	
 }

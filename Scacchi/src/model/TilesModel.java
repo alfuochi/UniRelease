@@ -41,17 +41,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 		// TODO Auto-generated method stub
 		return osUtil;
 	}
-	/** 
-	*@author Alessandro Fuochi (UNIVR) ID083311
-	*@since reset stati di controllo
-	*/
-	@Override 
-	public void resetState()	{
-	   setSelect(false);
-	   setMove(false);
-	   setStall(false);
-	   setDemo(false);
-	}
+
 	@Override 
 	public void runDemo()	{
 	   setDemo(true);

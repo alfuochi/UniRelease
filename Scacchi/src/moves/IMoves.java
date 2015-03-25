@@ -7,14 +7,14 @@ import model.Model;
 import model.StAttach;
 import model.Default;
 import model.StHistory;
+import model.StMove;
 
 public class IMoves extends  moves.IChess implements Moves{
 	public IMoves(Model model){
 		this.model= model;
 	}
 /**
- * @author Alessandro Fuochi (UNIVR) ID083311
- * @since make a cntlChess control in select step	 	 
+ * @since  crea array di controllo per fase select 	 
  */
 @Override
 	public void grantedAreaSelect() {
@@ -24,42 +24,9 @@ public class IMoves extends  moves.IChess implements Moves{
 			grantedArea(  model.lastHistory(-1).obj,x,y);
 		}
 		}
+
 /**
- *@author Alessandro Fuochi (UNIVR) ID083311
- * @since make a cntlChess control in move step	 
- */
-@Override
-	public void grantedAreaMove() {
-		if (!model.lastHistory(-1).wait && model.lastHistory(-1).close ){
-			byte x=model.lastHistory(-1).x;
-			byte y=model.lastHistory(-1).y;
-			grantedArea(   model.lastHistory(-1).obj,x,y);
-		}
-	}
-/**
- * @author Alessandro Fuochi (UNIVR) ID083311
- * @since  return at 'before' of chess move 	 
- */
-@Override public String rollbackMove(){
-	String ms="";
-		if(model.sizeHistory() > 1){
-			boolean color;
-			StHistory r2=model.lastHistory(-2);
-			StHistory r1=model.lastHistory(-1);
-			color = model.colorCh(r2.obj);
-		 	r2.obj=r1.obj;
-			r1.obj=r1.eatObj;
-			model.set(r1.x,r1.y,r1.obj);
-		    model.set(r2.x,r2.y,r2.obj);
-		    model.setColor(color);
-		    model.setSelectState();
-		    ms="RollBack  Destinazione  pezzo " +Default.xCor[r2.x]+"."+Default.yCor[r2.y]+"  Mossa successiva al " + model.getSColor() ;
-		}
-		return ms;
-	}
-/**
- * @author Alessandro Fuochi (UNIVR) ID083311
- * @since  test for scacco 	 
+ * @since  test per scacco 	 
  */
 @Override
 public ArrayList<StAttach> testScacco(){
@@ -76,27 +43,9 @@ public ArrayList<StAttach> testScacco(){
 		return alist;
 }
 
+
 /**
- * @author Alessandro Fuochi (UNIVR) ID083311
- * @since  move a chess
- */
-@Override
-public boolean  moveChessboard(byte xFrom,byte yFrom ,byte xTo,byte yTo){
-	boolean othColor;
-	boolean canMove=true;
-	boolean myColor=model.colorAt(xFrom,yFrom);
-	if (model.at(xTo,yTo)[0]> -1){
-	 othColor=model.colorAt(xTo,yTo);
-	 if (myColor == othColor)
-	 return false;
-	}
-	model.set(xTo,yTo,model.at(xFrom,yFrom)[0]);
-	model.set(xFrom,yFrom,(byte)-1);
-	return canMove;
-}	
-/**
- * @author Alessandro Fuochi (UNIVR) ID083311
- * @since  test for scacco 	(one step)
+ * @since  test per scacco 	
  */
 private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean auto){
 		ArrayList<StAttach> defence= new ArrayList<StAttach>();
@@ -104,7 +53,6 @@ private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean
 		alist =overrideAttach(kingOnAttach,auto);
 		if(	alist.size() > 0  ) {
 			defence= defenceAttach(otherKing,auto);
-			printDefenceKing( defence );
 		}
 		for (byte i=0;i< defence.size();i++ )
 			alist.add(((StAttach)defence.get(i)));
@@ -119,7 +67,7 @@ private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean
 	byte [] chAt;
 	byte [] kingAt=whereIsCh(king);
 	byte [] range=model.rangeAt(king,true);
-	ArrayList<around> Around =aroundTheKing( king);
+	ArrayList<StMove> Around =aroundTheKing( king);
 	while (range[0] <= range[1]){
     	if (range[0] != Default.blackKing && range[0] !=  Default.whiteKing){
     			chAt=whereIsCh(range[0]);
@@ -153,12 +101,10 @@ private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean
 			s.auto=auto;
 			ind.add(s);
 		}
-		printAroundTheKing(Around );
 		return ind;
 	}
 	/**
-	 * @author Alessandro Fuochi (UNIVR) ID083311
-	 * @since  found one or more defense of king	 
+	 * @since  cerca una o piu' mosse di uscita per il re 
 	 */
 	private ArrayList<StAttach> defenceAttach(byte king,boolean auto){
 		model.restoreAt(true);
@@ -204,13 +150,13 @@ private ArrayList<StAttach> testScacco	(byte kingOnAttach,byte otherKing,boolean
 /**
  * @since  imposta la lista di attacco al re	 
  */
-private void setAroundTheKing(ArrayList<around> Around,byte king){
+private void setAroundTheKing(ArrayList<StMove> Around,byte king){
 	byte value=0;
 	for (byte n=0;n< Around.size();n++){
 	    value=model.cntlAt(Around.get(n).x, Around.get(n).y);
 		if (value != Default.posFree ){
-			around e=Around.get(n);
-			e.chess=value;
+			StMove e=Around.get(n);
+			e.obj=value;
 			Around.set(n, e);
 		}
 	}
@@ -219,68 +165,76 @@ private void setAroundTheKing(ArrayList<around> Around,byte king){
 /**
  * @since  lista delle vie di fuga per il re		 
  */
-private byte  isExitAroundTheKing(ArrayList<around> Around ){
+private byte  isExitAroundTheKing(ArrayList<StMove> Around ){
     byte ck=Default.posKill;
 	for (byte n=0;n< Around.size();n++){
-	if ( Around.get(n).chess ==Default.posFree ){
+	if ( Around.get(n).obj ==Default.posFree ){
 		ck=n;
 		break;
 	}
 	}
 	return ck;
 }
-/**
- * @author Alessandro Fuochi (UNIVR) ID083311
- * @since  print so list type <Around>	 
- */
-private void  printAroundTheKing(ArrayList<around> Around ){
-	if (model.isPrintSysOut())
-	for (byte n=0;n< Around.size();n++){
-		System.out.println("*  x ["+ Around.get(n).x +"] y ["+ Around.get(n).y +"] value "+ Around.get(n).chess +"" );
-	}
-}
 
-/**
- * @author Alessandro Fuochi (UNIVR) ID083311
- * @since  print so list type <Around>	 
- */
-private void  printDefenceKing(ArrayList<StAttach> defence ){
-	 if (model.isPrintSysOut()){
-		 for (byte i=0;i< defence.size();i++){
-			 System.out.println("\n\n\n Scacco at " + ((StAttach) defence.get(i)).king 
-		 			+" resolve ("+ i +") with "+((StAttach) defence.get(i)).chAttach + " ");
-		 }
-	 }
-}
-	
 /**
  * @param king
  * @return lista posizioni attorno al re
  */
-private ArrayList<around> aroundTheKing(byte king){
-	ArrayList<around>  Around= new ArrayList<around>();
+private ArrayList<StMove> aroundTheKing(byte king){
+	ArrayList<StMove>  Around= new ArrayList<StMove>();
 	byte [] kingAt=whereIsCh(king);
 	byte[][] v= {{-1,-1} ,{0,-1}, {+1,-1} ,{+1,0},{-1,0} ,{-1,+1},{0,+1} ,{+1,+1}};
 	for (byte n=0; n< v.length;n++){
 		if(model.xyOk((byte)(kingAt[0] + v[n][0]),(byte)(kingAt[1] + v[n][1]))){
-			around e = new around();
+			StMove e = new StMove();
 			e.x=(byte )(kingAt[0] + v[n][0]);
 			e.y=(byte)(kingAt[1] + v[n][1]);
-			e.chess=Default.posFree;
+			e.obj=Default.posFree;
 			Around.add(e);
 		}
 		}
 	return Around;
 }
+
 /**
  * @author Alessandro Fuochi (UNIVR) ID083311
- * @since model around data	 
+ * @since  mossa di un pezzo
  */
-private class around{
-	byte x;
-	byte y;
-	byte chess;
-}
+@Override
+public boolean  moveChessboard(byte xFrom,byte yFrom ,byte xTo,byte yTo){
+	boolean othColor;
+	boolean canMove=true;
+	boolean myColor=model.colorAt(xFrom,yFrom);
+	if (model.at(xTo,yTo)[0]> -1){
+	 othColor=model.colorAt(xTo,yTo);
+	 if (myColor == othColor)
+	 return false;
+	}
+	model.set(xTo,yTo,model.at(xFrom,yFrom)[0]);
+	model.set(xFrom,yFrom,(byte)-1);
+	return canMove;
+}	
 
+/**
+ * @author Alessandro Fuochi (UNIVR) ID083311
+ * @since  ritorno allo stato precedente l'ultima mossa 	 
+ */
+@Override public String rollbackMove(){
+	String ms="";
+		if(model.sizeHistory() > 1){
+			boolean color;
+			StHistory r2=model.lastHistory(-2);
+			StHistory r1=model.lastHistory(-1);
+			color = model.colorCh(r2.obj);
+		 	r2.obj=r1.obj;
+			r1.obj=r1.eatObj;
+			model.set(r1.x,r1.y,r1.obj);
+		    model.set(r2.x,r2.y,r2.obj);
+		    model.setColor(color);
+		    model.setSelectState();
+		    ms="RollBack  Destinazione  pezzo " +Default.xCor[r2.x]+"."+Default.yCor[r2.y]+"  Mossa successiva al " + model.getSColor() ;
+		}
+		return ms;
+	}
 
 }

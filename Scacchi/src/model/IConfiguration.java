@@ -1,8 +1,5 @@
 package model;
 
-
-
-
 import java.util.ArrayList;
 
 /**
@@ -42,10 +39,13 @@ public  class IConfiguration implements Configuration {
 		for (byte n=0;n<1;n++)
 			promL.add(new byte[Default.lProm]);
 		reset();
-	    printSysOut=Default.printSysOut;
+	    resetState();
+		printSysOut=Default.printSysOut;
+	  
 	}
-	
-	
+	/** 
+	*@since reset array e contatory
+	*/
 	@Override
 	public void reset(){
 		resetCB(chessboardL,chessboard,Default.lChessboard);
@@ -55,9 +55,18 @@ public  class IConfiguration implements Configuration {
 		resetRoules50(true);
 		resetRoules50(false);
 	}
+	/** 
+	*@since reset stati di controllo
+	*/
+	@Override 
+	public void resetState()	{
+	   setSelect(false);
+	   setMove(false);
+	   setStall(false);
+	   setDemo(false);
+	}
 	
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since reset controllo scacchiera 
 	*/
 	 @Override
@@ -66,7 +75,6 @@ public  class IConfiguration implements Configuration {
 	}
 	
 	 /**
-	 * @author Alessandro
 	 * @since  get array di una 'bord' della scacchiera (vedi costanti classe configurazione )
 	 */
 	protected byte[] getChessboard(byte index){
@@ -127,6 +135,10 @@ public  class IConfiguration implements Configuration {
 		e[1]=pattaW;
 	    return e;
 	}
+	
+	/**
+	 * @since valori iniziali per colore
+	 */
 	@Override
 	public void resetRoules50(boolean color){
 		if (color)
@@ -180,9 +192,6 @@ public  class IConfiguration implements Configuration {
 		return move;
 	}
 	
-
-
-	
 	@Override
 	public 
 	void setStall(boolean value){
@@ -222,35 +231,32 @@ public  class IConfiguration implements Configuration {
 	}
 	
 	@Override
-	public 
-	void removeHistory(int index){
+	public 	void removeHistory(int index){
 		History.remove(index);
 	}
 	
 	@Override
-	public 
-	 StHistory getHistory(int index){
+	public 	 StHistory getHistory(int index){
 		return History.get(index);
 	}
 	
 	@Override
-	public 
-	 int sizeHistory(){
+	public 	 int sizeHistory(){
 		return History.size();
 	}
 	
 	@Override
-	public 
-	void backUpColor(){
+	public 	void backUpColor(){
 		bColor=color;
 	}
 	
 	@Override
-	public 
-	 void restoreColor(){
+	public  void restoreColor(){
 		color=bColor;
 	}
-	
+	/**
+	 * @since promozione pedone valore prima valore dopo da schermata video
+	 */
 	@Override 
 	public void setProm03(byte chessBefore,byte chessAfterPos){
 		checkPawn( chessBefore);
@@ -259,6 +265,10 @@ public  class IConfiguration implements Configuration {
 		else
 			setProm(chessBefore,(byte)((int) chessAfterPos+ Default.promBlack));
 	}
+	
+	/**
+	 * @since promozione pedone valore prima valore dopo
+	 */
 	@Override 
 	public void setProm(byte chessBefore,byte chessAfter){
 		checkPawn( chessBefore);
@@ -277,7 +287,9 @@ public  class IConfiguration implements Configuration {
 			return getProm( chess);
 		return chess;	
 	}
-	
+	/**
+	 * verifica che il pezzo sia o sia rimasto un pedone
+	 */
 	@Override 
 	public boolean isPawnAgain(byte chess){
 		return isPawn (getConvProm(chess));

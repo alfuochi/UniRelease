@@ -7,7 +7,6 @@ import model.StAttach;
 public interface Moves extends Chess {
 	void grantedArea(byte i, byte j, byte k);
 	void grantedAreaSelect();
-	void grantedAreaMove();
 	/**
 	 * @author Alessandro Fuochi (UNIVR) ID083311
 	 * @since  move a chess

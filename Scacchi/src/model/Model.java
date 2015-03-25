@@ -12,7 +12,6 @@ public interface Model extends Configuration  {
 
 	boolean colorCh(byte ch);
 
-	void resetState();
 
 	StHistory lastHistory(int index);
 
