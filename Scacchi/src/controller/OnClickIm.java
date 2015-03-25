@@ -96,7 +96,7 @@ public class OnClickIm implements Controller{
 	}
 	
 		/**
-		 * converte sequenza in comandi per esecuzione demo 
+		 * @since converte sequenza in comandi per esecuzione demo 
 		 * @param index
 		 * @return
 		 */
@@ -179,7 +179,7 @@ public class OnClickIm implements Controller{
 			  model.set(xTo,yTo,valueFrom);
 			  model.set(xFrom,yFrom,Default.posFree);
 			  model.changeColor();
-			  rules50(a);
+			  rules50(a.obj,a.eat);
 			  view.moveChD(xFrom,yFrom,xTo,yTo,valueTo,a.obj);
 			  model.resetCntl();
 			  osUtil.wait(Default.runDisplayDelay);
@@ -220,11 +220,12 @@ public class OnClickIm implements Controller{
 	  /**
 	   * @since regola 50
 	   */
-	  private void rules50(StHistory   	a){
-	  if (a.eat || model.isPawnAgain(a.obj)){ 
-  	  	model.resetRoules50(a.color);
-    		model.resetRoules50(!a.color);
-    		} else model.setRoules50(a.color);	 
+	  private void rules50(byte obj,boolean eat){
+		  boolean color= model.colorCh(obj);
+		  if (eat || model.isPawnAgain(obj)){ 
+			  model.resetRoules50(color);
+			  model.resetRoules50(!color);
+    		} else model.setRoules50(color);	 
 	  }
     
 
