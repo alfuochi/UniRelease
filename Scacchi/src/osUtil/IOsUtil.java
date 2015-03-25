@@ -36,6 +36,10 @@ public class IOsUtil implements OsUtil {
 		return (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024);
 	}
 	
+	@Override
+	public String memoryDesc(){
+		return "Memoria usata jvm  ( " + javaVersionDesc() + " )   "+ memory()+"  KB ";
+	}
 	@Override 
 	public String fileSeparator(){
 		return File.separator;
@@ -129,8 +133,10 @@ public class IOsUtil implements OsUtil {
     		   printOutError("This is java version " + e[0] +"."+ e[1]
     				   +" but is required java version " + Default.JVM_Minimum_Value[0] +"."+ Default.JVM_Minimum_Value[1],-1,true) ;
        }
-      
-   
+     	@Override
+        public String javaVersionDesc(){
+          return System.getProperty("java.version");
+     	}
 	   	@Override
        public int[] javaVersion(){
 	   		int[] e=null;

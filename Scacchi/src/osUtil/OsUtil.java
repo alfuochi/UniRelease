@@ -62,6 +62,10 @@ public interface OsUtil {
 
 	void testJVM();
 
+	String javaVersionDesc();
+
+	String memoryDesc();
+
 	
 	
 

@@ -94,7 +94,7 @@ public class OnClickIm implements Controller{
 				model.removeHistory(model.sizeHistory()-1);
 				model.setSelectState();
 		}
-			view.writeAddInfo( "Memoria usata jvm  " + osUtil.memory()+" KB (circa) ",Color.GREEN  );
+			view.writeAddInfo(osUtil.memoryDesc() ,Color.GREEN  );
 	}
 	
 		/**

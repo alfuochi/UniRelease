@@ -83,7 +83,7 @@ public class TilesPanel extends JPanel implements View {
 		   syncChessboard();
 		   reloadEat();
 		   reloadCord();
-		   writeAddInfo( "Memoria usata jvm  " + osUtil.memory()+" KB (circa) ",Color.GREEN  );
+		   writeAddInfo( osUtil.memoryDesc(),Color.GREEN  );
 		   writeMessage("Apre il " + model.getSColor(),Color.WHITE);
 		   reloadDemoList();
 		   frame.setVisible(true);
