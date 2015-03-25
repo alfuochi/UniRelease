@@ -56,11 +56,13 @@ public interface OsUtil {
    	 *@param eCode error code
    	 */
 	void printOutError(String s, int eCode, boolean optional);
+	void printOutError(String s, int eCode, boolean optionalPrint, Exception e);
 
 	int[] javaVersion();
 
 	void testJVM();
 
+	
 	
 
 	
