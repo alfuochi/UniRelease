@@ -57,6 +57,10 @@ public interface OsUtil {
    	 */
 	void printOutError(String s, int eCode, boolean optional);
 
+	int[] javaVersion();
+
+	void testJVM();
+
 	
 
 	

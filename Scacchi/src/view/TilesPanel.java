@@ -65,7 +65,7 @@ public class TilesPanel extends JPanel implements View {
 		osUtil=model.getOsUtil();
 		controller= new controller.OnClickIm(this);
 		moves=controller.getMoves();
-		model.testFileImage();
+		
 		createPanel();
 		ldStart();
 	}

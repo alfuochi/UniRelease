@@ -66,33 +66,22 @@ public class IOsUtil implements OsUtil {
 	  @Override
 	   public void loadCsv(String path,ArrayList<String[]> list,String separator){
 		File file =null;
-		ArrayList<String> listToken=new ArrayList<String>();
 		try {
-		  
 		   file = new File(path);
 		   if(!file.exists()) {
 			   printOutError( " file " +path +" non trovato ",1,true);
 			   } else {
 			   BufferedReader br = new BufferedReader( new FileReader(path));
 			   String strLine = "";
-			   StringTokenizer st = null;
-			   while( (strLine = br.readLine()) != null)
-			   {
-				   st = new StringTokenizer(strLine,separator);
-				   listToken.clear();
-				   while(st.hasMoreTokens())
-				   {
-					   listToken.add(st.nextToken());
-				   }
-				   list.add( listToken.toArray(new String[listToken.size()]));
-			   }
+			   while( (strLine = br.readLine()) != null)   list.add(  splitToken(strLine,separator));
 			   br.close();
 		   } 
 		   		}catch (Exception ex) {
 		   			ex.printStackTrace();
 		   			System.exit(-1);
 		   		}
-	  }
+	  	}
+		  
 	  /**
        * @since aggiunge demo  
        * @param append record csv formato nome ,selezione ,mossa,...
@@ -150,4 +139,32 @@ public class IOsUtil implements OsUtil {
 		    		System.exit(eCode);
 		    }
 	   	}
-	 }
+	 
+       @Override
+       public void testJVM(){
+    	   int[] e=javaVersion();
+    	   if(  e[0] < Default.JVM_Minimum_Value[0] ||( e[0] == Default.JVM_Minimum_Value[0] && e[1] < Default.JVM_Minimum_Value[1] ))
+    		   printOutError("This is java version " + e[0] +"."+ e[1]+" but is required java version " + Default.JVM_Minimum_Value[0] +"."+ Default.JVM_Minimum_Value[1],-1,true) ;   ; 
+       }
+      
+   
+	   	@Override
+       public int[] javaVersion(){
+    	   String[] jvmv =splitToken(System.getProperty("java.version").replace("_", "."),"."); 
+           int[] e= new int[jvmv.length];
+           for(int n=0;n< e.length;n++)
+        	  e[n]= Integer.parseInt(jvmv[n]);
+	   	   return e;
+	   	}
+	    
+	   	private String[] splitToken(String s,String separator){
+	 		  ArrayList<String> listToken = new ArrayList<String>();
+	 		  StringTokenizer st = new StringTokenizer(s,separator);
+	 		  while(st.hasMoreTokens())  listToken.add(st.nextToken());
+	 		  Object[] oa=listToken.toArray(); 
+	 		  String[] sa=new String[oa.length];
+	 		  for (int n =0;n< oa.length;n++)
+	 			  sa[n]=(String) oa[n];
+	 		  return sa;
+	 	  }
+}

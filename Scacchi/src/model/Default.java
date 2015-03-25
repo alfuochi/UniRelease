@@ -8,6 +8,9 @@ import java.awt.Color;
 */
 public  class Default {
 	public static final String title="Scacchi                         da Alessandro Fuochi  ID083311 ( Only for UniVr  )";
+	
+	public static final byte[] JVM_Minimum_Value={(byte) 1,(byte) 8};
+	
 	public static final String[] path 			= {"torre_n","cavallo_n","alfiere_n","regina_n","re_n","alfiere_n","cavallo_n","torre_n","pedone_n","pedone_n","pedone_n","pedone_n","pedone_n","pedone_n","pedone_n","pedone_n","pedone_b","pedone_b","pedone_b","pedone_b","pedone_b","pedone_b","pedone_b","pedone_b","torre_b","cavallo_b","alfiere_b","regina_b","re_b","alfiere_b","cavallo_b","torre_b"}; 
 	public static final byte[] sPos 			= {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,56,57,58,59,60,61,62,63,48,49,50,51,52,53,54,55}; 
 	

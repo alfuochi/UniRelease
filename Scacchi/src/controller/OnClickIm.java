@@ -23,6 +23,8 @@ public class OnClickIm implements Controller{
 		this.moves=new moves.IMoves(view.getModel());
 		this.model= view.getModel();
 		this.osUtil= model.getOsUtil();
+		model.testFileImage();
+		osUtil.testJVM();
 	}
 	
 	@Override
