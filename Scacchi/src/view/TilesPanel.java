@@ -120,7 +120,12 @@ public class TilesPanel extends JPanel implements View {
        return  (byte) JOptionPane.showOptionDialog(null,  " Richiesta promozione ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
 	} 
      /**
-      * @since stampa tipo scacco / matto / stallo / patta regola 50
+      * @since stampa tipo scacco 
+      * @since matto 
+      * @since stallo 
+      * @since patta regola 50
+      * @since pochi pezzi rimasti 
+      * @since posizione ripetuta per 3 volte
       */
 	@Override
 	public void printScacco(boolean auto,boolean sm,boolean end,boolean king){    
@@ -145,6 +150,7 @@ public class TilesPanel extends JPanel implements View {
 			        sn = (Integer) JOptionPane.showOptionDialog(null,  " Scacco matto ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
 			   }
 			}
+			
 			if ( model.isStall())  {
 			   tarea.setText(" STALLO ");
 			   tarea.setBackground(Color.ORANGE);
@@ -156,39 +162,37 @@ public class TilesPanel extends JPanel implements View {
 			   tarea.setBackground(Color.ORANGE);
 			   sn =(Integer) JOptionPane.showOptionDialog(null, "PATTA TEORICA ", "Scacchi",  JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
 		 	}
+		 	
 		 	if (model.isPattaRoules50()) {
 		 		tarea.setText(" PATTA REGOLA 50 MOSSE ");  
 		 		tarea.setBackground(Color.ORANGE);
 		 		sn = (Integer) JOptionPane.showOptionDialog(null,  " Patta (Regola 50) ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
-		   } 
+		 	} 
 		 	
 			if (model.isRepeatMove()) {
 		 		tarea.setText(" RIPETIZIONE DI MOSSE ");  
 		 		tarea.setBackground(Color.ORANGE);
 		 		sn = (Integer) JOptionPane.showOptionDialog(null,  " RIPETIZIONE DI MOSSE ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
-		   } 
-		 	
-		 	
-		 	
-		 	
+			} 
 		 	
 		 	if (sn == 0){ 
 		 		model.setStopDemo(true);
 		 		ldStart();
 		 	}
-		   if (sn == 1){
+		   
+		 	if (sn == 1){
 			   model.setStopDemo(true);
 			   try {
-			   String name=JOptionPane.showInputDialog("Nome partita ");
-			   if (! name.isEmpty())
-			   model.savePlay( name);
+				   String name=JOptionPane.showInputDialog("Nome partita ");
+				   if (! name.isEmpty())
+					   model.savePlay( name);
 			   }catch (Exception ex){
 				   
 			   }
 			   ldStart();
-		   }
-		   if (sn==2 && !auto)   System.exit(0);
-	  }   
+		 	}
+		 	if (sn==2 && !auto)   System.exit(0);
+	  	}   
     /**
      * @ since stampa selezione pezzi da array di controllo su scacchiera
      */
@@ -289,21 +293,21 @@ public class TilesPanel extends JPanel implements View {
     * @since  crea thread per sequenze demo 
     */
    class lDemo extends Thread { 
-      public void run() {
-    	  demo.setText("Stop Demo");
-    	  if (!model.isDemo()){
-    		restart.setEnabled(false);
-    		savePlay.setEnabled(false);
-    		ldStart();
-    		controller.runDemo(game.getSelectedIndex());
-    	  }else{
-    		model.setStopDemo(true);
-    	  }
-   	   	ldStart();
-   	   	savePlay.setEnabled(true);
-   	   	restart.setEnabled(true);
-   	   	demo.setText("Demo");
-   	  }
+   public void run() {
+    demo.setText("Stop Demo");
+   	if (!model.isDemo()){
+    	restart.setEnabled(false);
+    	savePlay.setEnabled(false);
+    	ldStart();
+    	controller.runDemo(game.getSelectedIndex());
+    }else{
+    	model.setStopDemo(true);
+    }
+   	ldStart();
+   	savePlay.setEnabled(true);
+  	restart.setEnabled(true);
+   	demo.setText("Demo");
+   	}
   }
    /**
     * @since crea pannello completo
@@ -457,7 +461,9 @@ public class TilesPanel extends JPanel implements View {
    	      for (byte y=0;y< yl;y++)
    		   for (byte x=0;x< xl ;x++) centerButtonListener(x,y,model.at(x,y)[0]);
       }
-      
+      /**
+       * @since  crea  singolo listener per bottoni scacchiera
+       */
       private void  centerButtonListener( byte x,byte y,byte value){  
     	  centerButtons[y][x].addActionListener(event -> {
 			   if ( AWTEvent.MOUSE_EVENT_MASK > 0 ){
@@ -491,29 +497,29 @@ public class TilesPanel extends JPanel implements View {
        }
      
        private void clrIcon(JButton jb){
-          		   jb.setIcon(null);
+      	   jb.setIcon(null);
        }
         
    
-         private void setBorder(JButton jb,Color colorH,Color colorL){
-      		   jb.setBorder( BorderFactory.createBevelBorder(1,colorH,colorL));
-      	 }  
+      private void setBorder(JButton jb,Color colorH,Color colorL){
+      	   jb.setBorder( BorderFactory.createBevelBorder(1,colorH,colorL));
+      }  
     
-         private void reloadCord(){
+      private void reloadCord(){
       	   for (int n=0;n< Default.xCor.length;n++){
       		   northLabel[n].setText("  "+Default.xCor[n]);
       		   northLabel[n].setBorder(BorderFactory.createBevelBorder(1,Color.GRAY,Color.GRAY));
       	   }
-      	 }
+      }
          
-         private void reloadEat(){
+      private void reloadEat(){
            int in=0;
       	   for (int i=0 ;i< 16;i++) {
       	   if (i >  1) in=(i/2); else in=0; 
       	   setButton(eastButtons[i][0],Default.yCor[in] +"" ,Default.frame_w*1/16, Default.frame_h*5/(6*16),Color.BLACK);
       	   setButton(westButtons[i][0],Default.yCor[in] +"" ,Default.frame_w*1/16, Default.frame_h*5/(6*16),Color.WHITE);
       	   }
-         }
+      }
     
          /**
           *@since ricarica lista combo dei test demo
@@ -530,26 +536,25 @@ public class TilesPanel extends JPanel implements View {
          }
          
          
-    /**
-    * @since carica un file pdf su browser default se installato 
-    */
-   private void ldPdf(String name){
-	   try {
-		   File pdfFile = new File(osUtil.defaultAppDir(true)+name);
-			if (pdfFile.exists()) {
-				if (Desktop.isDesktopSupported()) {
-					Desktop.getDesktop().open(pdfFile);
-				} else {
-					osUtil.printOutError("Awt Desktop is not supported!",1,true);
-				}
-			} else {
-				osUtil.printOutError("File " + pdfFile + " is not exists!",1,false);
-			}
-			System.out.println("Done");
-	   } catch (Exception ex) {
-		   JOptionPane.showMessageDialog(null, " Per manuale impostare un browser pdf di default ", "Scacchi", JOptionPane.INFORMATION_MESSAGE);
-	   }
-   }
-   
-   
+         /**
+          * @since carica un file pdf su browser default se installato 
+          */
+         private void ldPdf(String name){
+        	 try {
+        		 File pdfFile = new File(osUtil.defaultAppDir(true)+name);
+        		 if (pdfFile.exists()) {
+        			 if (Desktop.isDesktopSupported()) {
+        				 Desktop.getDesktop().open(pdfFile);
+        			 } else {
+        				 osUtil.printOutError("Awt Desktop is not supported!",1,true);
+        			 }
+        		 } else {
+        			 osUtil.printOutError("File " + pdfFile + " is not exists!",1,false);
+        		 }
+        		 System.out.println("Done");
+        	 } catch (Exception ex) {
+        		 JOptionPane.showMessageDialog(null, " Per manuale impostare un browser pdf di default ", "Scacchi", JOptionPane.INFORMATION_MESSAGE);
+        	 }
+         }
+      
 }
