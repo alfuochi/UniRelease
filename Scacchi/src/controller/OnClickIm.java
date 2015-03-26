@@ -36,7 +36,9 @@ public class OnClickIm implements Controller{
 	public void onClick(byte x,byte y,byte value) {
 		cntlProcess(x,y,value,(byte) 0);
 	}
-	
+	/**
+	 * @since esegue demo da array in classe + file esterno
+	 */
 	@Override
 	public void runDemo (int gameIndex ) { 
 	   StMove[] sm ;

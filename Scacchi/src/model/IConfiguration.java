@@ -102,7 +102,6 @@ public  class IConfiguration implements Configuration {
 	}
 	
 	/**
-	 * @author Alessandro
 	 * @since  set array di una 'bord' della scacchiera (vedi costanti classe configurazione )
 	 */
 	protected byte[] setChessboard(byte index,byte[] e){
@@ -112,7 +111,6 @@ public  class IConfiguration implements Configuration {
 	}
 	
 	/**
-	 * @author Alessandro
 	 * @since backup array scacchiera
 	 */
 	@Override
@@ -126,7 +124,6 @@ public  class IConfiguration implements Configuration {
 	}	
 	
 	/**
-	 * @author Alessandro
 	 * @since ripristina valori scacchiera e rimuove array backup se richiesto 
 	 */
 	@Override
@@ -138,12 +135,17 @@ public  class IConfiguration implements Configuration {
 		if (promL.size()== (buProm+1) && !noRemove)
 		 promL.remove(buProm);
 	}	
-	
+	/**
+	 * @since verifica la presenza del backup dati scacchiera
+	 */
+
 	@Override
 	public boolean isBackUpAvailable(){
 		return chessboardL.size()== (buChessboard+1) && promL.size()== (buProm+1);
 	}
-	
+	/**
+	 * @since restituisce contatori regola 50 mosse
+	 */
 	@Override
 	public byte[] getRoules50(){
 		byte[] e=new byte[2];

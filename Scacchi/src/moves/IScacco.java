@@ -178,7 +178,14 @@ public  class IScacco extends IChess implements Scacco {
 			}
 		return Around;
 	}
-
+    /**
+     * @since muove un pezzo sulla scacchiera
+     * @param xFrom
+     * @param yFrom
+     * @param xTo
+     * @param yTo
+     * @return
+     */
 	protected boolean moveChessboardCh(byte xFrom, byte yFrom, byte xTo, byte yTo) {
 		// TODO Auto-generated method stub
 		boolean othColor;
