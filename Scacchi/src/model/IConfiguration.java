@@ -409,10 +409,6 @@ public  class IConfiguration implements Configuration {
 		
 				 protected void setRepeatMove() {
 					Collections.sort(mapsL);
-					System.out.println("-----------------------------------------------------");
-					for(int n=0;n< mapsL.size();n++)
-					System.out.println(mapsL.get(n));
-					System.out.println("-----------------------------------------------------");
 					int repeat=0;
 					repeatMove=false;
 					if (! (mapsL.size()< Default.rulesRepeatMove)) 

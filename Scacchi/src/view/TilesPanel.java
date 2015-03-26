@@ -290,22 +290,20 @@ public class TilesPanel extends JPanel implements View {
     */
    class lDemo extends Thread { 
       public void run() {
-    	  //   demo.setEnabled(false);
-   	   demo.setText("Stop Demo");
-    	if (!model.isDemo()){
+    	  demo.setText("Stop Demo");
+    	  if (!model.isDemo()){
     		restart.setEnabled(false);
     		savePlay.setEnabled(false);
     		ldStart();
     		controller.runDemo(game.getSelectedIndex());
-    	}else{
+    	  }else{
     		model.setStopDemo(true);
-    	}
-   	   ldStart();
-   	   savePlay.setEnabled(true);
-   	   restart.setEnabled(true);
-   	   demo.setText("Demo");
-   	   //  demo.setEnabled(true);
-      }
+    	  }
+   	   	ldStart();
+   	   	savePlay.setEnabled(true);
+   	   	restart.setEnabled(true);
+   	   	demo.setText("Demo");
+   	  }
   }
    /**
     * @since crea pannello completo
