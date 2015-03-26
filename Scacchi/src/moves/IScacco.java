@@ -119,11 +119,12 @@ public  class IScacco extends IChess implements Scacco {
 		
 	private void testStall(){
 		model.restoreAt(true);
-		model.resetStall();
-		 model.setFewChess(numberOfChess(true),true);
+		model.resetStall(true);
+		model.resetStall(false);
+		model.setFewChess(numberOfChess(true),true);
 		 model.setFewChess(numberOfChess(false),false);
 		testSingleStall(Default.blackKing);
-		if (!model.isStall()) testSingleStall(Default.whiteKing);
+		 testSingleStall(Default.whiteKing);
 	}
 	
 	private void testSingleStall(byte king){
@@ -136,7 +137,7 @@ public  class IScacco extends IChess implements Scacco {
 		    			model.resetCntl();
 		    			grantedArea(range[0], chAt[0],chAt[1]);
 		    			ArrayList<byte[]> lm=model.listMove();
-		    			model.addStall(lm.size());
+		    			model.addStall(lm.size(),model.colorCh(range[0]));
 		    			model.restoreAt(true);
 		    		}
 		    	}

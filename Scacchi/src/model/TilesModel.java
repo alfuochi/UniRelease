@@ -95,23 +95,20 @@ public class TilesModel extends model.IConfiguration implements Model {
 		 setMove(true);
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
-	*@since test move state 	 
+		*@since test move state 	 
 	 */
 	@Override 
 	public boolean isMoveState()	{
 	   return !getSelect() && getMove() ;
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
-	*@since test selected state
+		*@since test selected state
 	*/
 	@Override 
 	public boolean isSelectState()	{
 	   return getSelect() && !getMove() ;
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since test invalid state
 	*/
 	@Override 
@@ -119,7 +116,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 	   return !getSelect() && !getMove() ;
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since reset a Default color
 	*/
 	@Override  
@@ -128,7 +124,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return getColor();
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since reset a nero
 	*/
 	@Override
@@ -137,7 +132,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return getColor();
 	}
 	/**
-	 *@author Alessandro Fuochi (UNIVR) ID083311
 	 *@since cambia il colore e ritorna corrente
 	 */
 	@Override
@@ -146,7 +140,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return getColor();
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since  colore in formato stringa
 	*/
 	@Override
@@ -157,7 +150,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return c;
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since  valore pezzo nella posizione array
 	*/
 	@Override
@@ -170,7 +162,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 	    return c;
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since valore pezzo nella posizione x,y 
 	*/
 	@Override
@@ -178,7 +169,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 			return at(posFromXY(x,y));
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since set valore pezzo nella posizione x,y 
 	*/
 	@Override
@@ -186,19 +176,15 @@ public class TilesModel extends model.IConfiguration implements Model {
 		setXY(chessboard,x,y,value);
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
-	*@since  color of chess in x y position (Waring: stop program if chess not present  )
+	*@since  colore dei pezzi in x y posizione 
 	*/
 	@Override
 	public boolean colorAt(byte x, byte y) {
 		if (at(x,y)[0] < 0) {
-			System.out.println(" Error at  " + Default.xCor[x] +" "+ Default.yCor[y] + " chess not found !!!!! " );
-			throw new FNDException(new Exception());
+			osUtil.printOutError(" Error at  " + Default.xCor[x] +" "+ Default.yCor[y] + " chess not found !!!!! ",-1,true );
 		}
 		return !( at(x,y)[0] >  Default.endBlack);
 	}
-	
-
 	
 	@Override
 	public byte[] rangeAt(byte king, boolean kingCh) {
@@ -222,7 +208,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return chRange;
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since value control type in cntl chessboard 
 	*/
 	@Override
@@ -230,7 +215,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return atXY(cntlChessboard,x,y);
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since set value control type in cntl chessboard 
 	*/
 	@Override
@@ -238,18 +222,15 @@ public class TilesModel extends model.IConfiguration implements Model {
 		setXY(cntlChessboard,x,y, value);
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since  test if valid id chess (Warning : if not valid stop execution program !!)
 	*/
 	@Override
 	public void checkCh(byte ch){
 		if ( ch <  0 || ch >= Default.sPos.length ){ 
-			System.out.println("[checkCh] Errore numero pezzo scacchiera " + ch);
-			throw new CHException(new Exception());
+			osUtil.printOutError("[checkCh] Errore numero pezzo scacchiera " + ch,-1,true);
 		}
 	}
 	/**
-	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since  test true/false  if x y coordinate is legal   
 	*/
 	@Override
@@ -259,7 +240,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		
 	
 	/**
-	 * @author Alessandro Fuochi (UNIVR) ID083311
 	 * @since  convert x y position in position (in chessboard array type )
 	 * @return position (byte)
 	 */
@@ -277,7 +257,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 		ArrayList<byte []> ind=new ArrayList<byte[]>(); 
 		for (byte y=0;y< Default.lY;y++)
 			for (byte x=0;x< Default.lX;x++)
-				if(	cntlAt(x,y) < Default.posFree) {
+				if(	cntlAt(x,y) < Default.posBusy) {
 					byte [] cord=new byte [2];	
 					cord[0]=x;
 					cord[1]=y;
@@ -286,11 +266,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return ind;
 	}
 		
-	
-	
-		
 	/**
-	 * @author Alessandro Fuochi (UNIVR) ID083311
 	 * @since chess standard x coordinate	 
 	 */
 		@Override
@@ -305,7 +281,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 			return  v;
 			}
 	/**
-	 *@author Alessandro Fuochi (UNIVR) ID083311
 	 *@since  chess standard y coordinate
 	 */
 		@Override
@@ -320,7 +295,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 			}
 	
 	/**
-	 *@author Alessandro Fuochi (UNIVR) ID083311
 	 *@since reset game history parameter
 	 */
 		@Override
@@ -332,7 +306,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		}
 				
 	/**
-	* @author Alessandro Fuochi (UNIVR) ID083311
 	* @since get value in x,y of chessboard (board)
 	* @param board
 	* @param x
@@ -343,7 +316,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 			return	getChessboard(board)[posFromXY(x,y)];
 	}
 		/**
-		* @author Alessandro Fuochi (UNIVR) ID083311
 		* @since set value in x,y at chessboard (board)
 		* @param board
 		* @param x
@@ -355,9 +327,8 @@ public class TilesModel extends model.IConfiguration implements Model {
 			e[posFromXY(x,y)]=value;
 			setChessboard(board,e);
 		}
+		
 		/**
-		 * 
-		 *@author Alessandro Fuochi (UNIVR) ID083311
 		 *@since  convert address 'pos' in adddress x,y
 		 *@return byte[2] [0] x [1] y 
 		 */
@@ -370,90 +341,31 @@ public class TilesModel extends model.IConfiguration implements Model {
 			posA[0]=(byte) (pos - (posA[1]*d)); 
 			return posA;
 		}
+		
 		/**
-		 *@author Alessandro Fuochi (UNIVR) ID083311
 		 *@since exit with pos invalid values
 		 */
 		private void checkPos(byte pos){
 			if (pos < 0 || pos > Default.lChessboard){
-				System.out.println("[checkPos] Error position in chessboard " + pos);
-				throw new POSException(new Exception());
+				osUtil.printOutError("[checkPos] Error position in chessboard " + pos,-1,true);
 			}
 		}
 		
 		/**
-		 *@author Alessandro Fuochi (UNIVR) ID083311
 		 *@since exit with x,y invalid values
 		 */
 		@Override
 		public void checkXY(byte x,byte y){
 			if (x < 0 || y < 0 || x >= Default.lX  || y >= Default.lY ){ 
-			 System.out.println("[checkXY] Errore coordinate x " + x  +" y " + y);
-			 throw new CXY_Exception(new Exception());
+			osUtil.printOutError("[checkXY] Errore coordinate x " + x  +" y " + y,-1,true);
 			}
 		}
-		
-		/**
-		 * @author Alessandro Fuochi (UNIVR) ID083311
-		 * @since ffff
-		 */
-		
-		private class CXY_Exception extends RuntimeException {
-					/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-					public CXY_Exception(Exception e1) throws  CXY_Exception  { 
-						e1.printStackTrace();
-					    System.exit(-1);
-					 }
-				}
-			
-			private class FNDException extends RuntimeException {
-			/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-			public FNDException( Exception e2) throws FNDException{ 
-				 e2.printStackTrace();
-			     System.exit(-1);
-			 }
-		}
-		
-		private class POSException extends RuntimeException {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			public POSException(Exception e3) throws POSException  { 
-				 e3.printStackTrace();
-			     System.exit(-1);
-			 }
-		}
-		
-		private class CHException extends RuntimeException {
-		
-				/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-				public CHException(Exception e) throws CHException { 
-				 e.printStackTrace();
-			     System.exit(-1);
-			 }
-		}
-
 
 	/**
 	 *@author Alessandro Fuochi (UNIVR) ID083311
 	 *@since  crea unica lista con demo  
 	 */
-    
-	@Override
+ 	@Override
 	public ArrayList<String[]> loadDemo(){
 		ArrayList<String[]> list=new  ArrayList<String[]> ();
 		list.add(Default.DemoS0);
@@ -478,10 +390,10 @@ public class TilesModel extends model.IConfiguration implements Model {
 	    String path = osUtil.defaultAppDir(true)+"Demo"+Default.csvType;
 	    osUtil.appendFile( path ,s+"\n");
 	 }	
-	  /**
-	    * @author Alessandro
-	    * @since  test se esistono tutti i file
-	    */
+	
+	/**
+	 * @since  test se esistono tutti i file
+	 */
 	@Override   
 	public void testFileImage(){
 		  for(byte n=0;n<Default.path.length;n++ )

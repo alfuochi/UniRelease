@@ -99,17 +99,9 @@ public abstract interface Configuration {
 	
 	void setColor(boolean value);
 	
-	void resetStall();
-
 	void resetState();
 
 	
-	void addStall(int value);
-
-	boolean isStall();
-
-
-
 	boolean isFewChess();
 
 	void setFewChess(int value, boolean color);
@@ -117,6 +109,14 @@ public abstract interface Configuration {
 	void setStopDemo(boolean value);
 
 	boolean isStopDemo();
+
+	int getStall(boolean color);
+
+	void resetStall(boolean color);
+
+	void addStall(int value, boolean color);
+
+	boolean isStall(boolean color);
 
 	
 }

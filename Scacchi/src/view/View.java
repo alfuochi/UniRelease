@@ -21,10 +21,6 @@ public interface View {
 
 	void syncChessboard();
 
-	void writeMessage(String m, Color c);
-
-	
-
 	Model getModel();
 
 	void selCenterBorder(byte x, byte y);
@@ -39,6 +35,8 @@ public interface View {
 	void setIconCe(byte chess);
 
 	void clrIconCe(byte chess);
+
+	void writeMessage(String m, Color c, boolean append);
 
 
 

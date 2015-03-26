@@ -145,7 +145,8 @@ public class OnClickIm implements Controller{
 				  a.color=model.colorAt(x, y);
 				  model.setHistory(model.sizeHistory()-1, a);
 				  model.resetCntl();
-				  view.writeMessage(" Selezionato " +Default.xCor[x]+"."+Default.yCor[y]+" - "+ model.getSColor(value) +"  " + Default.roulesTypes[value],Color.WHITE);
+				  view.writeMessage(" Selezionato " +Default.xCor[x]+"."+Default.yCor[y]+" - "+ model.getSColor(value) +"  " + Default.roulesTypes[value],Color.WHITE,false);
+				  view.writeMessage(" Regola 50 (w/b) [" +model.getRoules50()[1] + "," +model.getRoules50()[0]+" Contatore stallo (w/b) [ "+ model.getStall(false) + " " +  model.getStall(true) +" ] ",Color.WHITE,true);
 				  view.clearAllCenterBorder();
 				  view.selCenterBorder(x, y);
 				  moves.grantedAreaSelect();
@@ -212,8 +213,6 @@ public class OnClickIm implements Controller{
        * @since test scacco / matto / stallo 
        */
 	  private void cntlCheckStall(StHistory   	a){
-		  if (model.isPrintSysOut())  
-			  System.out.println("   H["+model.sizeHistory()+"] (Dopo) X "+a.x+ "  Y " +a.y+"  CODE " +a.obj+ " WAIT "+a.wait+" Close "+a.close+"\n");
 		  model.backUpAt();
 		  ArrayList<StAttach> listEvent= moves.testScaccoAllKing();
 		  if (listEvent.size() > 0)  
@@ -221,11 +220,10 @@ public class OnClickIm implements Controller{
 		  else
 		  view.printScacco(false,false,false,false);
 		  model.restoreAt(false);
-		  if (listEvent.size() > 0 && listEvent.get(listEvent.size()-1).auto) 
-			  {
-				view.writeMessage(moves.rollbackMove(),Color.cyan);
+		  if (listEvent.size() > 0 && listEvent.get(listEvent.size()-1).auto)  {
+				view.writeMessage(moves.rollbackMove(),Color.cyan,false);
 				view.syncChessboard();
-			  }
+		  }
 	  }
 	 
 	  /**

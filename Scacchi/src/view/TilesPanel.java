@@ -84,7 +84,7 @@ public class TilesPanel extends JPanel implements View {
 		   reloadEat();
 		   reloadCord();
 		   writeAddInfo( osUtil.memoryDesc(),Color.GREEN  );
-		   writeMessage("Apre il " + model.getSColor(),Color.WHITE);
+		   writeMessage("Apre il " + model.getSColor(),Color.WHITE,false);
 		   reloadDemoList();
 		   frame.setVisible(true);
 		   frame.validate();
@@ -103,9 +103,10 @@ public class TilesPanel extends JPanel implements View {
 	   if ( eat != -1) setIconCe (eat);
 	   setIconChess(xTo,yTo,model.getConvProm(model.at(xTo, yTo)[0]));
 	   clrIconChess(xFrom,yFrom);
-	   String ms="  Destinazione  pezzo " +Default.xCor[xTo]+"."+Default.yCor[yTo]+"  " + desc ;
-	   ms+= "\n Mossa successiva al " + model.getSColor() +"   Regola 50 (w/b) [" +model.getRoules50()[1] + " , " +model.getRoules50()[0]+"]";
-	   writeMessage(ms,Color.WHITE);
+	   String ms=" Destinazione  pezzo " +Default.xCor[xTo]+"."+Default.yCor[yTo]+"  " + desc + "   Mossa successiva al " + model.getSColor() ;
+	   writeMessage(ms,Color.WHITE,false);
+	   writeMessage(" Regola 50 (w/b) [" +model.getRoules50()[1] + "," +model.getRoules50()[0]+" Contatore stallo (w/b) [ "+ model.getStall(false) + " " +  model.getStall(true) +" ] ",Color.WHITE,true);
+		
 	   clearAllCenterBorder();
 	} 
    /**
@@ -151,7 +152,7 @@ public class TilesPanel extends JPanel implements View {
 			   }
 			}
 			
-			if ( model.isStall())  {
+			if ( model.isStall(true) || model.isStall(false))  {
 			   tarea.setText(" STALLO ");
 			   tarea.setBackground(Color.ORANGE);
 			   sn = (Integer)JOptionPane.showOptionDialog(null, "STALLO ", "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
@@ -244,8 +245,11 @@ public class TilesPanel extends JPanel implements View {
      * @since stampa messaggi su casella mosse e cambia colore sfondo
      */
    @Override 
-   public void writeMessage( String m,Color c){
-	   tarea.setText(m);
+   public void writeMessage( String m,Color c,boolean append){
+	   String mx=m;
+	   if (append)
+	   mx = tarea.getText() +"\n"+m ;
+	   tarea.setText(mx);
        tarea.setBackground(c);
    }
    /**

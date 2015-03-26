@@ -28,7 +28,8 @@ public  class IConfiguration implements Configuration {
 	private static boolean select;
 	private static boolean move;
 	
-	private static int  stallCounter;
+	private static int  stallCounterB;
+	private static int  stallCounterW;
 	
 	private static int fewChessW;
 	private static int fewChessB;
@@ -79,7 +80,8 @@ public  class IConfiguration implements Configuration {
 	public void resetState()	{
 	   setSelect(false);
 	   setMove(false);
-	   resetStall();
+	   resetStall(true);
+	   resetStall(false);
 	   setDemo(false);
 	   setStopDemo(true);
 	}
@@ -258,21 +260,39 @@ public  class IConfiguration implements Configuration {
 	protected boolean getMove(){
 		return move;
 	}
-	
 
 	@Override
-	public 	void addStall(int value){
-		stallCounter+=value;
+	public 	int getStall(boolean color){
+		if(color)
+		return stallCounterB;
+		else
+		return stallCounterW;	
+	}
+
+	@Override
+	public 	void addStall(int value,boolean color){
+		if(color)
+		stallCounterB+=value;
+		else
+		stallCounterW+=value;
 	}
 	
 	@Override
-	public 	void resetStall(){
-		stallCounter=0;
+	public 	void resetStall( boolean color){
+		if(color)
+		stallCounterB=0;
+		else
+		stallCounterW=0;
 	}
 	
+	
+	
 	@Override
-	public 	boolean isStall(){
-		return stallCounter == 0;
+	public 	boolean isStall(boolean color){
+		if(color)
+		return stallCounterB == 0;
+		else
+			return stallCounterW==0;
 	}
 	
 	@Override
