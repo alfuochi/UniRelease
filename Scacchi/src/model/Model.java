@@ -88,5 +88,9 @@ public interface Model extends Configuration  {
 
 	String getSColor(Byte ch);
 
+	void addMapsL();
+
+	boolean isRepeatMove();
+
 
 }

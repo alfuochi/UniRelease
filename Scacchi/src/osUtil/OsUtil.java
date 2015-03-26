@@ -66,6 +66,8 @@ public interface OsUtil {
 
 	String memoryDesc();
 
+	String MD5(String md5);
+
 	
 	
 

@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * 
@@ -8,37 +10,40 @@ import java.util.ArrayList;
  *@since  configuration 
  */
 public  class IConfiguration implements Configuration {
-	private static ArrayList<byte[]> mapsL;
+	private static ArrayList<String> mapsL;
 	private static boolean mapsComplete;
 	private static ArrayList<byte[]> chessboardL;
 	protected final static byte chessboard=0;
 	protected final static byte cntlChessboard=1;
 	protected final static byte buChessboard=2;
-	private  static ArrayList<byte[]> promL; 
+	private static ArrayList<byte[]> promL; 
 	private final static byte prom=0;
 	private final static byte buProm=1;
 	private static boolean color;
-	private boolean bColor;
-	private ArrayList<StHistory> History; 
-	private boolean select;
-	private boolean move;
+	private static boolean bColor;
+	private static ArrayList<StHistory> History; 
+	private static boolean select;
+	private static boolean move;
 	
-	private static int  	stallCounter;
+	private static int  stallCounter;
+	
 	private static int fewChessW;
 	private static int fewChessB;
 	
 	private static boolean repeatMove;
 	
-	private static boolean printSysOut;
-	private static boolean demo;
 	private static byte pattaW;
 	private static byte pattaB;
+	
+	private static boolean printSysOut;
+	private static boolean demo;
+	private static boolean stopDemo;
 	
 	/**
 	 * @since  configuration, caricamento classe	 
 	 */
 	public   IConfiguration() {
-		
+		mapsL=new  ArrayList<String>();
 		History=new  ArrayList<StHistory>();
 		chessboardL= new ArrayList<byte[]>();
 		promL=new ArrayList<byte[]>();
@@ -60,6 +65,7 @@ public  class IConfiguration implements Configuration {
 		resetCntl();
 		resetCB(promL,prom,Default.lProm);
 		clrHistory();
+		clrMapsL();
 		resetRoules50(true);
 		resetRoules50(false);
 	}
@@ -72,9 +78,10 @@ public  class IConfiguration implements Configuration {
 	   setMove(false);
 	   resetStall();
 	   setDemo(false);
+	   setStopDemo(true);
 	}
 	
-
+    
 	
 	/**
 	*@since reset controllo scacchiera 
@@ -184,7 +191,22 @@ public  class IConfiguration implements Configuration {
 	
 	@Override
 	public boolean isFewChess(){
-		return fewChessB < Default.rulesFewChess && fewChessW < Default.rulesFewChess;
+		return ((fewChessB <= Default.rulesFewChess) && (fewChessW <= Default.rulesFewChess));
+	}
+	
+	
+	protected void addMapsLR(String e){
+		mapsL.add(e);
+	}
+	
+	@Override
+	public void setStopDemo(boolean value){
+		stopDemo=value;
+	}
+	
+	@Override
+	public boolean isStopDemo(){
+		return stopDemo;
 	}
 	@Override
 	public void setSelect(boolean value){
@@ -211,11 +233,7 @@ public  class IConfiguration implements Configuration {
 		return move;
 	}
 	
-	@Override
-	public 	boolean getRepeatMove(){
-		return repeatMove;
-	}
-	
+
 	@Override
 	public 	void addStall(int value){
 		stallCounter+=value;
@@ -245,6 +263,14 @@ public  class IConfiguration implements Configuration {
 	
 	protected void clrHistory(){
 		History.clear();
+	}
+	
+	protected void clrMapsL(){
+		mapsL.clear();
+	}
+	
+	protected void clrPromL(){
+		promL.clear();
 	}
 	
 	@Override
@@ -377,5 +403,31 @@ public  class IConfiguration implements Configuration {
 					     System.exit(-1);
 					 }
 				}
+				 boolean getRepeatMove() {
+					 return repeatMove;
+				 }
+		
+				 protected void setRepeatMove() {
+					Collections.sort(mapsL);
+					System.out.println("-----------------------------------------------------");
+					for(int n=0;n< mapsL.size();n++)
+					System.out.println(mapsL.get(n));
+					System.out.println("-----------------------------------------------------");
+					int repeat=0;
+					repeatMove=false;
+					if (! (mapsL.size()< Default.rulesRepeatMove)) 
+					for (int n=0;n< mapsL.size()-1;n++){
+						if (((String) mapsL.get(n+1)).equals((String) mapsL.get(n)))  repeat++;	
+						else repeat=0;
+						if (repeat >= Default.rulesRepeatMove) {
+						 	repeatMove=true;
+						    break;
+						 }
+					}
+				  
+				}
+			
+				 
+				
 
 }

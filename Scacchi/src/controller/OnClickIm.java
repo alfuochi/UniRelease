@@ -49,9 +49,10 @@ public class OnClickIm implements Controller{
 				overWriteObj=Default.posFree;
 			} else  {
 				overWriteObj	= sm[ic].obj;
-		}	
+			}	
 				osUtil.wait(Default.runDemoDelay);
-		}
+		    if (model.isStopDemo()) break;
+	   }
 	}
 	/**
 	 * @ since determina se la fase attuale e' selezione o movimento
@@ -87,7 +88,10 @@ public class OnClickIm implements Controller{
 			|| !(model.lastHistory(-2).close ))) {
 					moveCh(model.lastHistory(-2).x,model.lastHistory(-2).y,model.lastHistory(-1).x,model.lastHistory(-1).y,
 					model.lastHistory(-2).obj,model.lastHistory(-1).obj,overValue);
-					if ((model.sizeHistory() > 0  && model.lastHistory(-1).selectOk) ) model.setSelectState();
+					if ((model.sizeHistory() > 0  && model.lastHistory(-1).selectOk) ){
+						model.setSelectState();
+						
+						}
 		}
 		
 		if ( model.sizeHistory() > 0  &&  ! model.lastHistory(-1).selectOk ) {  
@@ -181,6 +185,7 @@ public class OnClickIm implements Controller{
 			  model.set(xTo,yTo,valueFrom);
 			  model.set(xFrom,yFrom,Default.posFree);
 			  model.changeColor();
+			  model.addMapsL();
 			  rules50(a.obj,a.eat);
 			  view.moveChD(xFrom,yFrom,xTo,yTo,valueTo,a.obj);
 			  model.resetCntl();
@@ -210,7 +215,9 @@ public class OnClickIm implements Controller{
 		  model.backUpAt();
 		  ArrayList<StAttach> listEvent= moves.testScaccoAllKing();
 		  if (listEvent.size() > 0)  
-			  view.printScacco(((StAttach) listEvent.get(listEvent.size()-1)).auto,((StAttach) listEvent.get(listEvent.size()-1)).sm,((StAttach) listEvent.get(listEvent.size()-1)).end, ((StAttach) listEvent.get(listEvent.size()-1)).king);
+		  view.printScacco(((StAttach) listEvent.get(listEvent.size()-1)).auto,((StAttach) listEvent.get(listEvent.size()-1)).sm,((StAttach) listEvent.get(listEvent.size()-1)).end, ((StAttach) listEvent.get(listEvent.size()-1)).king);
+		  else
+		  view.printScacco(false,false,false,false);
 		  model.restoreAt(false);
 		  if (listEvent.size() > 0 && listEvent.get(listEvent.size()-1).auto) 
 			  {

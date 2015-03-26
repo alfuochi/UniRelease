@@ -2,6 +2,7 @@ package model;
 
 
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import osUtil.OsUtil;
@@ -45,9 +46,35 @@ public class TilesModel extends model.IConfiguration implements Model {
 	@Override 
 	public void runDemo()	{
 	   setDemo(true);
+	   setStopDemo(false);
 	}
+	/**
+	 * @since memorizza lo stato 
+	 */
+	@Override 
+	public void addMapsL(){
+		ArrayList<String> e= new ArrayList<String>();
+		String t="";
+		for(byte n=0;n< Default.lChessboard;n++)
+        	if (at(n)[0] != Default.posFree){
+        		e.add(n+".");
+        		t+=n+".";
+        		e.add(getConvProm(at(n)[0])+".");
+        	    t+=  getConvProm(at(n)[0])+".";
+        	}
+        
+		addMapsLR(osUtil.MD5(t));
+		
 	
-	
+        setRepeatMove();
+	}
+	/**
+	 * @since memorizza lo stato 
+	 */
+	@Override 
+	public boolean isRepeatMove(){
+		return getRepeatMove();
+	}
 	/**
 	*@author Alessandro Fuochi (UNIVR) ID083311
 	*@since  ultimo array con index -1

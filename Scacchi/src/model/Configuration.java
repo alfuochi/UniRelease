@@ -103,8 +103,7 @@ public abstract interface Configuration {
 
 	void resetState();
 
-	boolean getRepeatMove();
-
+	
 	void addStall(int value);
 
 	boolean isStall();
@@ -114,6 +113,10 @@ public abstract interface Configuration {
 	boolean isFewChess();
 
 	void setFewChess(int value, boolean color);
+
+	void setStopDemo(boolean value);
+
+	boolean isStopDemo();
 
 	
 }

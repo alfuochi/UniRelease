@@ -124,49 +124,60 @@ public class TilesPanel extends JPanel implements View {
       */
 	@Override
 	public void printScacco(boolean auto,boolean sm,boolean end,boolean king){    
-		int sn=-1;  
-		String re= " bianco ";
-		if (king) re="nero";
-		if (auto) re+="\n\nUltima mossa ha generato auto scacco verrà annullata ";
-		if (sm && !end)  {
+			int sn=-1;  
+			Icon errorIcon = UIManager.getIcon("OptionPane.warningIcon");  
+			String[] possibilities= {"Nuova Partita","Nuova Partita e Salva partita","Esci"};
+			String re= " bianco ";
+			if (king) re="nero";
+			if (auto) re+="\n\nUltima mossa ha generato auto scacco verrà annullata ";
+			if (sm && !end)  {
 			   tarea.setText(" SCACCO ");
 			   tarea.setBackground(Color.yellow);
 			   JOptionPane.showMessageDialog(null, " Scacco al re " + re, "Scacchi", JOptionPane.INFORMATION_MESSAGE);
-		   }
+			}
 		   
-		if ( sm && end)  {
-			   sn=1;
+			if ( sm && end)  {
 			   tarea.setText(" SCACCO MATTO ");
 			   tarea.setBackground(Color.red);
-			  if (auto)
+			   if (auto)
 				   JOptionPane.showMessageDialog(null, " Scacco al re " + re, "Scacchi", JOptionPane.INFORMATION_MESSAGE);
-			  else{
-				  Icon errorIcon = UIManager.getIcon("OptionPane.warningIcon");  
-			       String[] possibilities= {"Nuova Partita","Nuova Partita e Salva partita","Esci"};
+			   else{
 			        sn = (Integer) JOptionPane.showOptionDialog(null,  " Scacco matto ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
-			  }
-			  }
-		 if ( model.isStall())  {
-			   sn=1; 
+			   }
+			}
+			if ( model.isStall())  {
 			   tarea.setText(" STALLO ");
 			   tarea.setBackground(Color.ORANGE);
-			   sn = JOptionPane.showConfirmDialog(null, "STALLO !!\n\n Nuova partita (SI) o esci (NO) ?", "Scacchi", JOptionPane.YES_NO_OPTION);
-		 }
+			   sn = (Integer)JOptionPane.showOptionDialog(null, "STALLO ", "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
+			}
 		 
-		 if ( model.isFewChess())  {
-			   sn=1; 
+		 	if ( model.isFewChess())  {
 			   tarea.setText(" PATTA TEORICA ");
 			   tarea.setBackground(Color.ORANGE);
-			   sn = JOptionPane.showConfirmDialog(null, "PATTA TEORICA !!\n\n Nuova partita (SI) o esci (NO) ?", "Scacchi", JOptionPane.YES_NO_OPTION);
-		 }
-		 if (model.isPattaRoules50()) {
-				  Icon errorIcon = UIManager.getIcon("OptionPane.warningIcon");  
-			       String[] possibilities= {"Nuova Partita","Nuova Partita e Salva partita","Esci"};
-			        sn = (Integer) JOptionPane.showOptionDialog(null,  " Patta (Regola 50) ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
-		
+			   sn =(Integer) JOptionPane.showOptionDialog(null, "PATTA TEORICA ", "Scacchi",  JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
+		 	}
+		 	if (model.isPattaRoules50()) {
+		 		tarea.setText(" PATTA REGOLA 50 MOSSE ");  
+		 		tarea.setBackground(Color.ORANGE);
+		 		sn = (Integer) JOptionPane.showOptionDialog(null,  " Patta (Regola 50) ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
 		   } 
-		   if (sn == 0)  ldStart();
+		 	
+			if (model.isRepeatMove()) {
+		 		tarea.setText(" RIPETIZIONE DI MOSSE ");  
+		 		tarea.setBackground(Color.ORANGE);
+		 		sn = (Integer) JOptionPane.showOptionDialog(null,  " RIPETIZIONE DI MOSSE ",  "Scacchi", JOptionPane.PLAIN_MESSAGE, 1,  errorIcon, possibilities, 0);
+		   } 
+		 	
+		 	
+		 	
+		 	
+		 	
+		 	if (sn == 0){ 
+		 		model.setStopDemo(true);
+		 		ldStart();
+		 	}
 		   if (sn == 1){
+			   model.setStopDemo(true);
 			   try {
 			   String name=JOptionPane.showInputDialog("Nome partita ");
 			   if (! name.isEmpty())
@@ -279,15 +290,21 @@ public class TilesPanel extends JPanel implements View {
     */
    class lDemo extends Thread { 
       public void run() {
-   	   demo.setEnabled(false);
-   	   restart.setEnabled(false);
-   	   savePlay.setEnabled(false);
-   	   ldStart();
-   	   controller.runDemo(game.getSelectedIndex());
+    	  //   demo.setEnabled(false);
+   	   demo.setText("Stop Demo");
+    	if (!model.isDemo()){
+    		restart.setEnabled(false);
+    		savePlay.setEnabled(false);
+    		ldStart();
+    		controller.runDemo(game.getSelectedIndex());
+    	}else{
+    		model.setStopDemo(true);
+    	}
    	   ldStart();
    	   savePlay.setEnabled(true);
    	   restart.setEnabled(true);
-   	   demo.setEnabled(true);
+   	   demo.setText("Demo");
+   	   //  demo.setEnabled(true);
       }
   }
    /**
