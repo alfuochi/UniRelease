@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * 
@@ -11,7 +10,6 @@ import java.util.Comparator;
  */
 public  class IConfiguration implements Configuration {
 	private static ArrayList<String> mapsL;
-	private static boolean mapsComplete;
 	private static ArrayList<byte[]> chessboardL;
 	protected final static byte chessboard=0;
 	protected final static byte cntlChessboard=1;
