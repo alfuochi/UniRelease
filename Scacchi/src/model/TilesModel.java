@@ -6,15 +6,13 @@ import osUtil.OsUtil;
 
 
 public class TilesModel extends model.IConfiguration implements Model {
-	Configuration configuration;
-	OsUtil osUtil;
+	
 	public TilesModel(){
 		configuration=new model.IConfiguration();
 		this.osUtil=new osUtil.IOsUtil();
 	}
 		
 	/**
-	* @author Alessandro Fuochi (UNIVR) ID083311
 	* @since  colore del pezzo
 	*/
 	@Override
@@ -22,7 +20,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return ! (ch > Default.endBlack);
 	}
 	/**
-	* @author Alessandro Fuochi (UNIVR) ID083311
 	* @since  get configuration
 	*/
 	@Override
@@ -31,7 +28,6 @@ public class TilesModel extends model.IConfiguration implements Model {
 		return configuration;
 	}
 	/**
-	* @author Alessandro Fuochi (UNIVR) ID083311
 	* @since  get configuration
 	*/
 	@Override
@@ -465,7 +461,7 @@ public class TilesModel extends model.IConfiguration implements Model {
 	    osUtil.loadCsv( osUtil.defaultAppDir(true)+Default.DemoFileName+Default.csvType, list,Default.csvSep);
 	    return list;
 	}
- 
+	
 	/**
 	 * @since legge storico e crea nuova demo
 	 */

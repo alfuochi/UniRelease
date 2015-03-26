@@ -3,12 +3,17 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import osUtil.OsUtil;
+
 /**
  * 
  *@author Alessandro Fuochi (UNIVR) ID083311
  *@since  configuration 
  */
 public  class IConfiguration implements Configuration {
+	protected Configuration configuration;
+	protected OsUtil osUtil;
+	
 	private static ArrayList<String> mapsL;
 	private static ArrayList<byte[]> chessboardL;
 	protected final static byte chessboard=0;
@@ -78,8 +83,6 @@ public  class IConfiguration implements Configuration {
 	   setDemo(false);
 	   setStopDemo(true);
 	}
-	
-    
 	
 	/**
 	*@since reset controllo scacchiera 
@@ -196,6 +199,29 @@ public  class IConfiguration implements Configuration {
 	protected void addMapsLR(String e){
 		mapsL.add(e);
 	}
+	
+	 /**
+     * @since calcola ripetizioni configurazioni
+     */
+	 protected void setRepeatMove() {
+		Collections.sort(mapsL);
+		int repeat=0;
+		repeatMove=false;
+		if (! (mapsL.size()< Default.rulesRepeatMove)) 
+		for (int n=0;n< mapsL.size()-1;n++){
+			if (((String) mapsL.get(n+1)).equals((String) mapsL.get(n)))  repeat++;	
+			else repeat=0;
+			if (repeat >= Default.rulesRepeatMove) {
+			 	repeatMove=true;
+			    break;
+			 }
+		}
+	  
+	}
+	
+	protected boolean getRepeatMove() {
+		 return repeatMove;
+	 }
 	
 	@Override
 	public void setStopDemo(boolean value){
@@ -366,62 +392,16 @@ public  class IConfiguration implements Configuration {
 		boardSet.set(board,e);	
 	}
 	
-		private void checkNCB(byte[] granted,byte index){
-			
-			boolean g=false;
-			for(byte n=0;n<granted.length;n++ )
+	private void checkNCB(byte[] granted,byte index){
+		boolean g=false;
+		for(byte n=0;n<granted.length;n++ )
 			if (granted[n]== index) g=true;
-				if (!g)
-			{
-				System.out.println(" Error position in chessboard " + index);
-				throw new NCBException(new Exception());
-			}
-			}
+				if (!g) osUtil.printOutError(" Errore posizione sulla scacchiera " + index, -1 ,true);
+	}
 			
-			private class NCBException extends RuntimeException  {
-				private static final long serialVersionUID = 1L;
-				public NCBException( Exception e) throws NCBException { 
-					 e.printStackTrace();
-				     System.exit(-1);
-				 }
-			}
-			
-			private void checkPawn(byte chess){
-					if (!isPawn( chess))
-				{
-					System.out.println(" Is not a Pawn " + chess);
-					throw new PawnException(new Exception());
-				}
-				}
+	private void checkPawn(byte chess){
+		if (!isPawn( chess)) osUtil.printOutError(" Non e' un pedone " + chess, -1 ,true);
+	}
 				
-				private class PawnException extends RuntimeException {
-					private static final long serialVersionUID = 1L;
-					public PawnException( Exception e) throws PawnException { 
-						 e.printStackTrace();
-					     System.exit(-1);
-					 }
-				}
-				 boolean getRepeatMove() {
-					 return repeatMove;
-				 }
-		
-				 protected void setRepeatMove() {
-					Collections.sort(mapsL);
-					int repeat=0;
-					repeatMove=false;
-					if (! (mapsL.size()< Default.rulesRepeatMove)) 
-					for (int n=0;n< mapsL.size()-1;n++){
-						if (((String) mapsL.get(n+1)).equals((String) mapsL.get(n)))  repeat++;	
-						else repeat=0;
-						if (repeat >= Default.rulesRepeatMove) {
-						 	repeatMove=true;
-						    break;
-						 }
-					}
-				  
-				}
 			
-				 
-				
-
-}
+	}

@@ -158,19 +158,7 @@ public  class IScacco extends IChess implements Scacco {
 			}
 		}
 	}
-	/**
-	 * @since  lista delle vie di fuga per il re		 
-	 */
-	private byte  isExitAroundTheKing(ArrayList<StMove> Around ){
-	    byte ck=Default.posKill;
-		for (byte n=0;n< Around.size();n++){
-		if ( Around.get(n).obj ==Default.posFree ){
-			ck=n;
-			break;
-		}
-		}
-		return ck;
-	}
+	
 	/**
 	 * @since lista posizioni attorno al re
 	 * @param king
@@ -197,9 +185,9 @@ public  class IScacco extends IChess implements Scacco {
 		boolean canMove=true;
 		boolean myColor=model.colorAt(xFrom,yFrom);
 		if (model.at(xTo,yTo)[0]> -1){
-		 othColor=model.colorAt(xTo,yTo);
-		 if (myColor == othColor)
-		 return false;
+			othColor=model.colorAt(xTo,yTo);
+			if (myColor == othColor)
+				return false;
 		}
 		model.set(xTo,yTo,model.at(xFrom,yFrom)[0]);
 		model.set(xFrom,yFrom,(byte)-1);

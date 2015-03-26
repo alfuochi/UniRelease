@@ -256,23 +256,31 @@ public class TilesPanel extends JPanel implements View {
 	   addInfo.setText(m);
        addInfo.setBackground(c);
    }
-  
+   /**
+    * @since imposta icone scacchiera
+    */
    @Override
    public void setIconChess(byte x,byte y,byte chess){
 		   setIcon(centerButtons[y][x], chess);
 	}
-   
+   /**
+    * @since cancella icona scacchiera
+    */
    @Override
    public void clrIconChess(byte x,byte y){
 		   clrIcon(centerButtons[y][x]);
 	}
-   
+   /**
+    * @since imposta icona pezzi catturati
+    */
    @Override
    public void setIconCe(byte chess){
 		   if (model.colorCh(chess) )  setIcon(eastButtons[chess][0],chess);
 		   else   setIcon(westButtons[chess-16][0],chess);
 	}
- 
+   /**
+    * @since cancella icona pezzi catturati
+    */
    @Override
    public void clrIconCe(byte chess){
 	       if (model.colorCh(chess) ) 	clrIcon(eastButtons[0][chess]);
@@ -283,7 +291,9 @@ public class TilesPanel extends JPanel implements View {
 	public Model getModel() {
 		return model;
 	}
-      
+   /**
+    * @imposta bordi di bottone della scacchiera con colori pezzo selezionato
+    */
    @Override
    public void selCenterBorder(byte x,byte y){
   	 setBorder(centerButtons[y][x], Default.busychess[0], Default.busychess[1]);
@@ -514,7 +524,7 @@ public class TilesPanel extends JPanel implements View {
          
       private void reloadEat(){
            int in=0;
-      	   for (int i=0 ;i< 16;i++) {
+      	   for (int i=0 ;i< Default.sPos.length/2;i++) {
       	   if (i >  1) in=(i/2); else in=0; 
       	   setButton(eastButtons[i][0],Default.yCor[in] +"" ,Default.frame_w*1/16, Default.frame_h*5/(6*16),Color.BLACK);
       	   setButton(westButtons[i][0],Default.yCor[in] +"" ,Default.frame_w*1/16, Default.frame_h*5/(6*16),Color.WHITE);
