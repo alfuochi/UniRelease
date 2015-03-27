@@ -162,6 +162,13 @@ public class TilesModel extends model.IConfiguration implements Model {
 	    return c;
 	}
 	/**
+	*@since  valore pezzo nella posizione array
+	*/
+	@Override
+	public byte buAt(byte x,byte y) {
+		return  ((byte []) getChessboard(buChessboard))[posFromXY(x,y)];
+	 }
+	/**
 	*@since valore pezzo nella posizione x,y 
 	*/
 	@Override

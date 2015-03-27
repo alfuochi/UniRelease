@@ -92,5 +92,7 @@ public interface Model extends Configuration  {
 
 	boolean isRepeatMove();
 
+	byte buAt(byte x, byte y);
+
 
 }

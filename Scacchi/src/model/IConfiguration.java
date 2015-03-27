@@ -284,9 +284,7 @@ public  class IConfiguration implements Configuration {
 		else
 		stallCounterW=0;
 	}
-	
-	
-	
+
 	@Override
 	public 	boolean isStall(boolean color){
 		if(color)
